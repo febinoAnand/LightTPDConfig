@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Defalut Title {% endblock %}</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+
+<body>
+<div class="top-header">
+    <a class="header-link"  href="/tagconfig">Tagconfig</a>
+    <a class="header-link"  href="/serverconfig">Server Config</a>
+    <a class="header-link"  href="/globalfirewall">Global Firewall</a>
+    <a class="header-link"  href="/specificfirewall">Specific Firewall</a>
+    <a class="header-link"  href="/modbustcp">Modbus TCP List</a>
+    <a class="header-link"  href="/mqtttopic">MQTT Topic List</a>
+</div>
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

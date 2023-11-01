@@ -1,0 +1,33 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Specific Firewall
+{% endblock %}
+
+{% block content %}
+<h3>Specific Firewall</h3>
+<table>
+    <tr>
+        <th>Source IP</th>
+        <th>Source Port</th>
+        <th>Destination IP</th>
+        <th>Destination Port</th>
+        <th>Access</th>
+        <th>Action</th>
+    </tr>
+    <tr>
+        <td>192.168.1.2</td>
+        <td>1883</td>
+        <td>192.168.1.5</td>
+        <td>1883</td>
+        <td>Allow</td>
+        <td>
+            <button>Edit</button><br>
+            <button>Delete</button>
+        </td>
+    </tr>
+</table>
+<button onclick="window.location='/specificfirewallview';">Add</button>
+<button>Generate File</button>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Tag Config
+{% endblock %}
+
+
+{% block content %}
+<h3 class="bodyHead"> Tag Configuration</h3>
+<table>
+    <tr>
+        <th>tagname</th>
+        <th>source_interface</th>
+        <th>modbus tcp/ip index	port</th>
+        <th>slave id</th>
+        <th>function code</th>
+        <th>reg address</th>
+        <th>no of reg read</th>
+        <th>data type</th>
+        <th>modbus function</th>
+        <th>multiplication factor</th>
+        <th>modbus base address</th>
+        <th>modbus string index</th>
+        <th>mqtt topic index</th>
+        <th>mqtt fuction</th>
+        <th>transmit type</th>
+        <th>transmit interval</th>
+        <th>Raw data buffer</th>
+        <th>processed data buffer</th>
+        <th>Action</th>
+
+    </tr>
+    <tr>
+        <td>DP004</td>
+        <td>MODBUS_TCP_INTERFACE</td>
+        <td>0</td>
+        <td>502</td>
+        <td>1</td>
+        <td>4</td>
+        <td>47001</td>
+        <td>1</td>
+        <td>_UINT16</td>
+        <td>_MODBUS_READ</td>
+        <td>_BASE_1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>PUBLISH</td>
+        <td>PERIODIC</td>
+        <td>5</td>
+        <td>0</td>
+        <td>0</td>
+        <td><button>Edit</button><button>Delete</button></td>
+    </tr>
+</table>
+
+<button onclick="window.location='/tagconfigview'">Add</button>
+<button>Generate File</button>
+{% endblock %}

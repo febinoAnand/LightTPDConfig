@@ -1,0 +1,36 @@
+button{
+    margin:10px;
+    font-size:10px;
+}
+
+body{
+    margin:20px;
+
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+  text-align: center;
+  margin-bottom:20px;
+  font-size:10px;
+}
+
+.bodyHead{
+    margin:30px;
+    text-align:center;
+}
+
+input,label,select{
+    margin:10px;
+    font-size:13px;
+}
+.top-header{
+    margin-left:10px;
+    margin-bottom:40px;
+}
+
+.header-link{
+margin:10px;
+}

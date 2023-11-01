@@ -1,0 +1,124 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Tag Config View
+{% endblock %}
+
+
+{% block content %}
+
+<h3>Tag config View</h3>
+<form>
+
+    <label for="tag_name">Tag Name :</label>
+    <input id="tag_name">
+
+    <label for="source_interface">Source Interface :</label>
+    <select id="source_interface">
+        <option></option>
+        <option>_Digi_Input_1</option>
+        <option>_Digi_Input_2</option>
+        <option>_Digi_Input_3</option>
+        <option>_Digi_Input_4</option>
+        <option>_Digi_Output_1</option>
+        <option>_Digi_Output_2</option>
+        <option>_Digi_Output_3</option>
+        <option>_Digi_Output_4</option>
+        <option>MODBUS_RTU_INTERFACE</option>
+        <option>MODBUS_TCP_INTERFACE</option>
+    </select><br>
+
+    <label for="modbus_tcp_ip">Modbus TCP IP :</label>
+    <select id="modbus_tcp_ip">
+        <option></option>
+        <option>192.168.1.5</option>
+        <option>192.168.1.20</option>
+    </select>
+
+    <label for="port">Port :</label>
+    <input type="number" id="port"><br>
+
+    <label for="slave_id">Slave ID :</label>
+    <input type="number" id="slave_id">
+
+    <label for="function_code">Function Code :</label>
+    <select id="function_code">
+        <option></option>
+        <option>01- Read coils</option>
+        <option>02- Read Discrete input coils</option>
+        <option>03- Read Holding register</option>
+        <option>04- Read Input register</option>
+        <option>05- Write single coil</option>
+        <option>06- Write single register</option>
+
+    </select><br>
+
+    <label for="reg_address">Reg Address :</label>
+    <input type="number" id="reg_address">
+
+
+
+    <label for="data_type">Data type :</label>
+    <select id="data_type">
+        <option></option>
+        <option>_UINT16</option>
+        <option>_INT16</option>
+        <option>_UINT32</option>
+        <option>_INT32</option>
+        <option>_FLOAT_ABCD</option>
+        <option>_FLOAT_CDAB</option>
+        <option>_BOOLEAN</option>
+        <option>_STRING</option>
+
+    </select><br>
+
+    <label for="no_of_reg_read">No. of Reg Read :</label>
+    <input type="number" id="no_of_reg_read">
+
+    <label for="modbus_function">Modbus Function :</label>
+    <select id="modbus_function">
+        <option></option>
+        <option>_MODBUS_READ</option>
+        <option>_MODBUS_WRITE</option>
+    </select><br>
+
+    <label for="multiplication_factor">Multiplication Factor :</label>
+    <input type="number" id="multiplication_factor">
+
+    <label for="modbus_base_address">Modbus Base Address :</label>
+    <select id="modbus_base_address">
+        <option></option>
+        <option>_BASE_O</option>
+        <option>_BASE_1</option>
+    </select><br>
+
+    <label for="modbus_string_index">Modbus String Index :</label>
+    <input type="number" id="modbus_string_index">
+
+    <label for="mqtt_topic_index">MQTT Topic Index :</label>
+    <select id="mqtt_topic_index">
+        <option></option>
+        <option>vijay@innospace.co.in/dev</option>
+        <option>kp1/c5l5p8p04t2n6tdhlld0-v1/dcx/iotdemo/json</option>
+        <option>kp1/c5ja8v104t2n6tdhce6g-v1/dcx/YNmFna0b5G/json</option>
+    </select><br>
+
+    <label for="mqtt_function">MQTT Function :</label>
+    <select id="mqtt_function">
+        <option></option>
+        <option>PUBLISH</option>
+        <option>SUBSCRIBE</option>
+        <option>PUBSUB</option>
+
+    </select>
+
+    <label for="transmit_type">Transmit Type :</label>
+    <select id="transmit_type">
+        <option></option>
+        <option>NO_EVENT</option>
+        <option>PERIODIC</option>
+        <option>EVENT</option>
+    </select><br>
+    <button>Submit</button>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Modbus TCP List
+{% endblock %}
+
+{% block content %}
+
+<h3>Modbus TCP List</h3>
+<table>
+    <tr>
+        <th>Index</th>
+        <th>IP Address</th>
+        <th>Action</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>192.168.1.2</td>
+        <td>
+            <button>Edit</button>
+            <button>Delete</button>
+
+        </td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>192.168.1.10</td>
+        <td>
+            <button>Edit</button>
+            <button>Delete</button>
+
+        </td>
+    </tr>
+
+</table>
+
+<button onclick="window.location='/modbustcpview';">Add</button>
+<button>Generate File</button>
+
+{% endblock %}

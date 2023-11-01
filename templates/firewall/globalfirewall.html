@@ -1,0 +1,26 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Global Firewall
+{% endblock %}
+
+{% block content %}
+
+<h3>Global Firewall</h3>
+<form>
+  <label>Incoming:</label>
+  <select>
+    <option>Allow</option>
+    <option>Deny</option>
+  </select><br>
+
+  <label>Outgoing:</label>
+  <select>
+    <option>Allow</option>
+    <option>Deny</option>
+  </select><br>
+
+  <button type="submit">submit</button>
+</form>
+
+{% endblock %}

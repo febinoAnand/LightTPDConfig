@@ -1,0 +1,43 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+MQTT Topic List
+{% endblock %}
+
+
+
+{% block content %}
+
+<h3>Modbus TCP List</h3>
+<table>
+    <tr>
+        <th>Index</th>
+        <th>MQTT Topic</th>
+        <th>Action</th>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>kp1/c5l5p8p04t2n6tdhlld0-v1/dcx/iotdemo/json</td>
+        <td>
+            <button>Edit</button>
+            <button>Delete</button>
+
+        </td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>kp1/c5ja8v104t2n6tdhce6g-v1/dcx/YNmFna0b5G/json</td>
+        <td>
+            <button>Edit</button>
+            <button>Delete</button>
+
+        </td>
+    </tr>
+
+</table>
+
+<button onclick="window.location='mqtttopicview';">Add</button>
+<button>Generate File</button>
+
+
+{% endblock %}

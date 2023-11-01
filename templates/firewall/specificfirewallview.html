@@ -1,0 +1,32 @@
+{% extends 'header/header.html' %}
+
+{% block title %}
+Specific Firewall View
+{% endblock %}
+
+
+{% block content %}
+
+<h3>Specific Firewall</h3>
+<form>
+    <label>Source IP:</label>
+    <input><br>
+
+    <label>Source Port:</label>
+    <input><br>
+
+    <label>Destination Port:</label>
+    <input><br>
+
+    <label>Destination Port:</label>
+    <input><br>
+
+    <label>Access:</label>
+    <select>
+        <option>Allow</option>
+        <option>Deny</option>
+    </select><br>
+    <button type="submit">Submit</button>
+
+</form>
+{% endblock %}

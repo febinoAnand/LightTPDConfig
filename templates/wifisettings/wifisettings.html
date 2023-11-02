@@ -5,14 +5,15 @@ Wifi Config
 {% endblock %}
 
 {% block content %}
-<form>
+<form method="POST" action="/updatewifisetting">
     <h3>WIFI Settings</h3>
-    <label>SSID:</label>
-    <input><br>
+    <label labelfor="ssid">SSID:</label>
+    <input name="ssid" value="{{configdata.ssid}}"><br>
 
-    <label>Password:</label>
-    <input><br>
+    <label labelfor="password">Password:</label>
+    <input name="password" value="{{configdata.password}}"><br>
 
     <button type="submit">Update</button>
+    <button type="button" onclick="window.location='/generatewifisettingfile'">Generate File</button>
 </form>
 {% endblock %}

@@ -15,19 +15,21 @@ Specific Firewall
         <th>Access</th>
         <th>Action</th>
     </tr>
+    {% for data in configdata %}
     <tr>
-        <td>192.168.1.2</td>
-        <td>1883</td>
-        <td>192.168.1.5</td>
-        <td>1883</td>
-        <td>Allow</td>
+        <td>{{data['source_ip']}}</td>
+        <td>{{data['source_port']}}</td>
+        <td>{{data['destination_ip']}}</td>
+        <td>{{data['destination_port']}}</td>
+        <td>{{data['access']}}</td>
         <td>
-            <button>Edit</button><br>
-            <button>Delete</button>
+            <button onclick="window.location='/specificfirewallview?id={{data['_id']}}'">Edit</button><br>
+            <button onclick="window.location='/deletespecificfirewalldata?id={{data['_id']}}'">Delete</button>
         </td>
     </tr>
+    {% endfor %}
 </table>
 <button onclick="window.location='/specificfirewallview';">Add</button>
-<button>Generate File</button>
+<button onclick="window.location='/generatespecificconfigfile';">Generate File</button>
 
 {% endblock %}

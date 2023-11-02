@@ -8,9 +8,10 @@ Modbus TCP View
 {% block content %}
 
 <h3>Modbus TCP View</h3>
-<form>
-    <label>IP Address:</label>
-    <input>
+<form method="post" action="/modbustcpipconfig?id={{configdata._id}}">
+    <label labelfor="ipaddress">IP Address:</label>
+    <input name="ipaddress" value="{{configdata.ipaddress}}">
     <button type="submit">Submit</button>
+    <button type="button" onclick="window.location='/modbustcp'">Back</button>
 </form>
 {% endblock %}

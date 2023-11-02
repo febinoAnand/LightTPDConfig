@@ -7,20 +7,21 @@ Global Firewall
 {% block content %}
 
 <h3>Global Firewall</h3>
-<form>
-  <label>Incoming:</label>
-  <select>
-    <option>Allow</option>
-    <option>Deny</option>
+<form method="post" action="/updateglobalfirewall">
+  <label labelfor="incoming">Incoming:</label>
+  <select name="incoming">
+    <option {% if configdata.incoming =="ALLOW"%} selected {% endif %} >ALLOW</option>
+    <option {% if configdata.incoming =="DENY"%} selected {% endif %}>DENY</option>
   </select><br>
 
-  <label>Outgoing:</label>
-  <select>
-    <option>Allow</option>
-    <option>Deny</option>
+  <label labelfor="outgoing">Outgoing:</label>
+  <select name="outgoing">
+    <option {% if configdata.outgoing =="ALLOW"%} selected {% endif %}>ALLOW</option>
+    <option {% if configdata.outgoing =="DENY"%} selected {% endif %}>DENY</option>
   </select><br>
 
-  <button type="submit">submit</button>
+  <button type="submit">Update</button>
+  <button type="button" onclick="window.location='/generateglobalfirewall';">Generate File</button>
 </form>
 
 {% endblock %}

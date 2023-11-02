@@ -7,9 +7,10 @@ MQTT Topic View
 
 {% block content %}
 <h3>MQTT Topic View</h3>
-<form>
-    <label>Topic:</label>
-    <input>
+<form method="post" action="/mqtttopicconfig?id={{configdata._id}}">
+    <label labelfor="topic">Topic:</label>
+    <input name="topic" value="{{configdata['topic']}}">
     <button type="submit">Submit</button>
+    <button type="button" onclick="window.location='/mqtttopic';">Back</button>
 </form>
 {% endblock %}

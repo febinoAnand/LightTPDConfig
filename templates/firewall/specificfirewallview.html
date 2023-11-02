@@ -8,25 +8,26 @@ Specific Firewall View
 {% block content %}
 
 <h3>Specific Firewall</h3>
-<form>
-    <label>Source IP:</label>
-    <input><br>
+<form method="post" action="/specificfirewallconfig?id={{configdata._id}}">
+    <label labelfor="source_ip">Source IP:</label>
+    <input name="source_ip" value="{{configdata.source_ip}}"><br>
 
-    <label>Source Port:</label>
-    <input><br>
+    <label labelfor="source_port">Source Port:</label>
+    <input name="source_port" value="{{configdata.source_port}}"><br>
 
-    <label>Destination Port:</label>
-    <input><br>
+    <label labelfor="destination_ip">Destination IP:</label>
+    <input name="destination_ip" value="{{configdata.destination_ip}}"><br>
 
-    <label>Destination Port:</label>
-    <input><br>
+    <label labelfor="destination_port">Destination Port:</label>
+    <input name="destination_port" value="{{configdata.destination_port}}"><br>
 
-    <label>Access:</label>
-    <select>
-        <option>Allow</option>
-        <option>Deny</option>
+    <label labelfor="access">Access:</label>
+    <select name="access">
+        <option {% if configdata.access=="ALLOW" %} selected {% endif %} >ALLOW</option>
+        <option {% if configdata.access=="DENY" %} selected {% endif %} >DENY</option>
     </select><br>
     <button type="submit">Submit</button>
+    <button type="button" onclick="/generatespecificconfigfile">Generate File</button>
 
 </form>
 {% endblock %}

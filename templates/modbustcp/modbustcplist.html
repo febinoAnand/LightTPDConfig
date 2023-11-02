@@ -13,28 +13,22 @@ Modbus TCP List
         <th>IP Address</th>
         <th>Action</th>
     </tr>
+    {% for data in configdata %}
     <tr>
-        <td>1</td>
-        <td>192.168.1.2</td>
+        <td>{{data['_id']}}</td>
+        <td>{{data['ipaddress']}}</td>
         <td>
-            <button>Edit</button>
-            <button>Delete</button>
+            <button onclick="window.location='/modbustcpview?id={{data['_id']}}'">Edit</button>
+            <button onclick="window.location='/deletemodbustcoipview?id={{data['_id']}}'">Delete</button>
 
         </td>
     </tr>
-    <tr>
-        <td>3</td>
-        <td>192.168.1.10</td>
-        <td>
-            <button>Edit</button>
-            <button>Delete</button>
+    {% endfor %}
 
-        </td>
-    </tr>
 
 </table>
 
 <button onclick="window.location='/modbustcpview';">Add</button>
-<button>Generate File</button>
+<button onclick="window.location='/generatemodbustcpipconfigfile';">Generate File</button>
 
 {% endblock %}

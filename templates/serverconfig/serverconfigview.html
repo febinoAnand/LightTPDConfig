@@ -7,23 +7,41 @@ Server Config
 
 {% block content %}
 <h3>Server Config</h3>
-<form>
-    <label>Host:</label>
-    <input><br>
+<form method="POST" action="/updateserverdetails">
+    <label labelfor="protocol">Protocol</label>
+    <select name="protocol">
+        <option {% if configdata.protocol =="MQTT" %} selected {% endif %}>MQTT</option>
+        <option {% if configdata.protocol =="WS" %} selected {% endif %}>WS</option>
+        <option {% if configdata.protocol =="TCP" %} selected {% endif %}>TCP</option>
+    </select><br>
 
-    <label>Port:</label>
-    <input type="number"><br>
+    <label labelfor="host">Host:</label>
+    <input name="host" value="{{configdata.host}}" size="50"><br>
 
-    <label>Client ID:</label>
-    <input><br>
+    <label labelfor="port">Port:</label>
+    <input type="number" name="port" value="{{configdata.port}}"><br>
 
-    <label>UserName:</label>
-    <input><br>
+    <label labelfor="client" >Client ID:</label>
+    <input name="client" size="50" value="{{configdata.client}}"><br>
 
-    <label>Password:</label>
-    <input><br>
+    <label labelfor="username">UserName:</label>
+    <input name="username" value="{{configdata.username}}"><br>
 
-    <button type="submit">submit</button>
+    <label labelfor="password">Password:</label>
+    <input name="password" type="password" value="{{configdata.password}}"><br>
+
+    <label labelfor="qos">QOS</label>
+    <select name="qos">
+        <option {% if configdata.qos ==0 %} selected {% endif %}>0</option>
+        <option {% if configdata.qos ==1 %} selected {% endif %}>1</option>
+        <option {% if configdata.qos ==2 %} selected {% endif %}>2</option>
+    </select>
+
+    <label labelfor="keep_alive">Keep Alive:</label>
+    <input type="number" name="keep_alive" value="{{configdata.keepalive}}"><br>
+
+    <button type="submit">Update</button>
+    <button type="button" onclick="window.location='/generateserverdetailsfile'">Generate File</button>
 </form>
 
 {% endblock %}

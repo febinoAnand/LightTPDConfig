@@ -67,11 +67,12 @@ class ConfigFileGenerator:
                     configTag.write(str(data['modbus_base_address'])+",")
                     configTag.write(str(data['modbus_string_id'])+",")
                     configTag.write(str(data['mqtt_topic_id'])+",")
+                    configTag.write(str(data['mqtt_function'])+",")
                     configTag.write(str(data['transmit_type'])+",")
                     configTag.write(str(data['transmit_interval'])+",")
                     configTag.write(str(data['raw_data_buffer'])+",")
                     configTag.write(str(data['processed_data_buffer']))
-                    configTag.write("\n")
+                    configTag.write(",\n")
             except Exception as e:
                 print (e)
                 configTag.write("")

@@ -11,8 +11,6 @@ Server Config
     <label labelfor="protocol">Protocol</label>
     <select name="protocol">
         <option {% if configdata.protocol =="MQTT" %} selected {% endif %}>MQTT</option>
-        <option {% if configdata.protocol =="WS" %} selected {% endif %}>WS</option>
-        <option {% if configdata.protocol =="TCP" %} selected {% endif %}>TCP</option>
     </select><br>
 
     <label labelfor="host">Host:</label>

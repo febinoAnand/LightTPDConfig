@@ -29,9 +29,9 @@ Tag Config View
 
     <label labelfor="modbus_tcp_ip">Modbus TCP IP :</label>
     <select name="modbus_tcp_ip">
-        <option value="0" {% if tagconfigdata.modbus_tcp_ip_id ==0 %} selected {% endif %}>127.0.0.1</option>
+        <option value="0">0.0.0.0</option>
         {% for modbus in modbustcpdropdown %}
-        <option value="{{modbus['_id']}}" {% if tagconfigdata.modbus_tcp_ip_id ==modbus['_id'] %} selected {% endif %}>{{modbus['ipaddress']}}</option>
+        <option value="{{loop.index}}" {% if tagconfigdata.modbus_tcp_ip_id ==loop.index %} selected {% endif %}>{{modbus['ipaddress']}}</option>
         {% endfor %}
 
 
@@ -96,8 +96,9 @@ Tag Config View
 
     <label labelfor="mqtt_topic_index">MQTT Topic Index :</label>
     <select name="mqtt_topic_index">
+        <option value = "0">No Topic</option>
         {% for mqtttopic in mqtttopicdropdown %}
-        <option value="{{mqtttopic['_id']}}" {% if tagconfigdata.mqtt_topic_id ==mqtttopic['_id'] %} selected {% endif %}>{{mqtttopic['topic']}}</option>
+        <option value="{{loop.index}}" {% if tagconfigdata.mqtt_topic_id ==loop.index %} selected {% endif %}>{{mqtttopic['topic']}}</option>
         {% endfor %}
     </select><br>
 

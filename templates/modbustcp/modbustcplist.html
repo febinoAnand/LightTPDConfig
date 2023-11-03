@@ -15,7 +15,7 @@ Modbus TCP List
     </tr>
     {% for data in configdata %}
     <tr>
-        <td>{{data['_id']}}</td>
+        <td>{{loop.index}}</td>
         <td>{{data['ipaddress']}}</td>
         <td>
             <button onclick="window.location='/modbustcpview?id={{data['_id']}}'">Edit</button>

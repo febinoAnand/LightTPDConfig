@@ -449,7 +449,7 @@ class DatabaseManager:
         conn = sqlite3.connect(self.dbpath)
         conn.row_factory = self.__dict_factory
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM "+self.TABLE_MODBUS_TCP_IP)
+        cursor.execute("SELECT * FROM "+self.TABLE_MODBUS_TCP_IP + " ORDER BY "+ self.ROW_MODBUS_TCP_IP_ID)
         modbusconfig = cursor.fetchall()
         conn.close()
         return modbusconfig
@@ -517,7 +517,7 @@ class DatabaseManager:
         conn = sqlite3.connect(self.dbpath)
         conn.row_factory = self.__dict_factory
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM "+self.TABLE_MQTT_TOPIC_LIST)
+        cursor.execute("SELECT * FROM "+self.TABLE_MQTT_TOPIC_LIST+" ORDER BY "+ self.ROW_MQTT_TOPIC__ID)
         modbusconfig = cursor.fetchall()
         conn.close()
         return modbusconfig
@@ -532,7 +532,7 @@ class DatabaseManager:
         return modbusconfig
 
 
-    #################### MQTT TOPIC LIST Table ##########################
+    #################### SPECIFIC FIREWALL Table ##########################
 
     TABLE_SPECIFIC_FIREWALL = 'specific_firewall'
 
@@ -602,7 +602,7 @@ class DatabaseManager:
         conn = sqlite3.connect(self.dbpath)
         conn.row_factory = self.__dict_factory
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM "+self.TABLE_SPECIFIC_FIREWALL)
+        cursor.execute("SELECT * FROM "+self.TABLE_SPECIFIC_FIREWALL + "ORDER BY "+ self.ROW_SPECIFIC_FIREWALL_ID)
         modbusconfig = cursor.fetchall()
         conn.close()
         return modbusconfig

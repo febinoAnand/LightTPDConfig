@@ -17,7 +17,7 @@ MQTT Topic List
     </tr>
     {% for data in configdata %}
     <tr>
-        <td>{{data['_id']}}</td>
+        <td>{{loop.index}}</td>
         <td>{{data['topic']}}</td>
         <td>
             <button onclick="window.location='/mqtttopicview?id={{data['_id']}}';">Edit</button>

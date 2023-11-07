@@ -602,7 +602,7 @@ class DatabaseManager:
         conn = sqlite3.connect(self.dbpath)
         conn.row_factory = self.__dict_factory
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM "+self.TABLE_SPECIFIC_FIREWALL + "ORDER BY "+ self.ROW_SPECIFIC_FIREWALL_ID)
+        cursor.execute("SELECT * FROM "+ self.TABLE_SPECIFIC_FIREWALL + " ORDER BY "+ self.ROW_SPECIFIC_FIREWALL_ID)
         modbusconfig = cursor.fetchall()
         conn.close()
         return modbusconfig

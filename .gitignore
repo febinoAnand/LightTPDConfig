@@ -1,3 +1,5 @@
 venv/
 .idea/
 configFile/
+.DS_Store
+templates/.DS_Store

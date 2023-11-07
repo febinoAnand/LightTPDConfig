@@ -38,6 +38,10 @@ def home():
 
 ################ Tag Config Routes ########################
 
+@app.route("/tagconfiglist")
+def tagconfiglist():
+    return render_template("tagconfig/tagconfiglist.html",data="")
+
 @app.route("/tagconfigview")
 def tagconfigview():
     id = request.args.get('id')
@@ -62,7 +66,7 @@ def deletetagconfig():
 @app.route("/tagconfig")
 def tagconfig():
     tagConfigData = db.selectAllFromTagConfig()
-    return render_template("tagconfig/tagconfigtable.html",tagconfigdata = tagConfigData)
+    return render_template("tagconfig/tagconfiglist.html",tagconfigdata = tagConfigData)
 
 
 @app.route("/tagconfigdetails",methods=['POST'])

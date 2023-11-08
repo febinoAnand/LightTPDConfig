@@ -1,19 +1,37 @@
-{% extends 'header/header.html' %}
+{% extends 'header/designheader.html' %}
 
 {% block title %}
 Wifi Config
 {% endblock %}
 
+{% block wifisetting %}
+white-background
+{% endblock %}
+
 {% block content %}
-<form method="POST" action="/updatewifisetting">
-    <h3>WIFI Settings</h3>
-    <label labelfor="ssid">SSID:</label>
-    <input name="ssid" value="{{configdata.ssid}}"><br>
+<div class="card">
+    <div class="card-header">WIFI SETTINGS</div>
+    <div class="card-body">
+        <form method="POST" id="wifisettingform" class="form-class" action="/updatewifisetting">
+            <label labelfor="ssid">SSID:</label>
+            <input name="ssid" value="{{configdata.ssid}}"><br>
 
-    <label labelfor="password">Password:</label>
-    <input name="password" value="{{configdata.password}}"><br>
+            <label labelfor="password">Password:</label>
+            <input name="password" value="{{configdata.password}}"><br>
 
-    <button type="submit">Update</button>
-    <button type="button" onclick="window.location='/generatewifisettingfile'">Generate File</button>
-</form>
+        </form>
+    </div>
+
+</div>
+
+<table class="button-center">
+    <tr>
+        <td>
+            <button class="add-button" form="wifisettingform" type="submit">SUBMIT</button>
+        </td>
+        <td>
+            <button type="button" onclick="window.location='/generatewifisettingfile';">GENERATE FILE</button>
+        </td>
+    </tr>
+</table>
 {% endblock %}

@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} Config {% endblock %}</title>
-
     <link rel="stylesheet" href="../../static/css/styles_design.css">
     <link rel="stylesheet" href="../../static/icon/font-awesome.min.css">
-
 </head>
 <body>
 
@@ -33,25 +31,25 @@
 <table class="tab-table">
     <tr>
         <td>
-            <button class="tab-view white-background" onclick="window.location='/tagconfig';">IOT Config</button>
+            <button class="tab-view {% block tagconfig %}  {% endblock %}" onclick="window.location='/tagconfig';">IOT Config</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/serverconfig';">Server Config</button>
+            <button class="tab-view {% block serverconfig %}  {% endblock %}" onclick="window.location='/serverconfig';">Server Config</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/globalfirewall';">Global Firewall</button>
+            <button class="tab-view {% block globalfirewall %}  {% endblock %}" onclick="window.location='/globalfirewall';">Global Firewall</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/specificfirewall';">Specific Firewall</button>
+            <button class="tab-view {% block specificfirewall %}  {% endblock %}" onclick="window.location='/specificfirewall';">Specific Firewall</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/modbustcp';">MODBUS TCP</button>
+            <button class="tab-view {% block modbustcp %}  {% endblock %}" onclick="window.location='/modbustcp';">MODBUS TCP</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/mqtttopic';">MQTT Topic</button>
+            <button class="tab-view {% block mqtttopic %}  {% endblock %}" onclick="window.location='/mqtttopic';">MQTT Topic</button>
         </td>
         <td>
-            <button class="tab-view" onclick="window.location='/wifisetting';">WIFI Settings</button>
+            <button class="tab-view {% block wifisetting %}  {% endblock %}" onclick="window.location='/wifisetting';">WIFI Settings</button>
         </td>
     </tr>
 </table>

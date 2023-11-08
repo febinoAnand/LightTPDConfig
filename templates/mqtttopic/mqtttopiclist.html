@@ -1,35 +1,54 @@
-{% extends 'header/header.html' %}
+{% extends 'header/designheader.html' %}
 
 {% block title %}
 MQTT Topic List
 {% endblock %}
 
+{% block mqtttopic %}
+white-background
+{% endblock %}
 
 
 {% block content %}
 
-<h3>Modbus TCP List</h3>
-<table>
+
+<div class="card">
+    <div class="card-header">IOT TAG CONFIGURATION</div>
+    <div class="card-body">
+        <table class="card-body-table">
+            <thead class="primary-background">
+                <th>INDEX</th>
+                <th>MQTT TOPIC</th>
+                <th>ACTION</th>
+            </thead>
+            {% for data in configdata %}
+            <tr class="tr {% if loop.index0 % 2 ==0 %} stripped-background {%endif%}" onclick="window.location='/mqtttopicview?id={{data['_id']}}';">
+                <td class="td">{{loop.index}}</td>
+                <td>{{data['topic']}}</td>
+                <td class="icon"><a href="/deletemqttconfig?id={{data['_id']}}"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+</div>
+
+</div>
+
+<table class="button-center">
     <tr>
-        <th>Index</th>
-        <th>MQTT Topic</th>
-        <th>Action</th>
-    </tr>
-    {% for data in configdata %}
-    <tr>
-        <td>{{loop.index}}</td>
-        <td>{{data['topic']}}</td>
         <td>
-            <button onclick="window.location='/mqtttopicview?id={{data['_id']}}';">Edit</button>
-            <button onclick="window.location='/deletemqttconfig?id={{data['_id']}}';">Delete</button>
+            <button class="add-button" onclick="window.location='/mqtttopicview'">ADD</button>
+        </td>
+        <td>
+            <button class="generate-button" onclick="window.location='/generatemqttconfigfile'">GENERATE</button>
         </td>
     </tr>
-    {% endfor %}
-
 </table>
 
-<button onclick="window.location='mqtttopicview';">Add</button>
-<button type="button" onclick="window.location='/generatemqttconfigfile';">Generate File</button>
+
+
+
 
 
 {% endblock %}

@@ -1,27 +1,47 @@
-{% extends 'header/header.html' %}
+{% extends 'header/designheader.html' %}
 
 {% block title %}
 Global Firewall
 {% endblock %}
 
+{% block globalfirewall %}
+white-background
+{% endblock %}
+
 {% block content %}
 
-<h3>Global Firewall</h3>
-<form method="post" action="/updateglobalfirewall">
-  <label labelfor="incoming">Incoming:</label>
-  <select name="incoming">
-    <option {% if configdata.incoming =="ALLOW"%} selected {% endif %} >ALLOW</option>
-    <option {% if configdata.incoming =="DENY"%} selected {% endif %}>DENY</option>
-  </select><br>
 
-  <label labelfor="outgoing">Outgoing:</label>
-  <select name="outgoing">
-    <option {% if configdata.outgoing =="ALLOW"%} selected {% endif %}>ALLOW</option>
-    <option {% if configdata.outgoing =="DENY"%} selected {% endif %}>DENY</option>
-  </select><br>
+<div class="card">
+  <div class="card-header">GLOBAL FIREWALL</div>
+  <div class="card-body">
+    <form method="post" class="form-class" id="updateglobalfirewallform" action="/updateglobalfirewall">
+      <label labelfor="incoming">Incoming:</label>
+      <select name="incoming">
+        <option {% if configdata.incoming =="ALLOW"%} selected {% endif %} >ALLOW</option>
+        <option {% if configdata.incoming =="DENY"%} selected {% endif %}>DENY</option>
+      </select><br>
 
-  <button type="submit">Update</button>
-  <button type="button" onclick="window.location='/generateglobalfirewall';">Generate File</button>
-</form>
+      <label labelfor="outgoing">Outgoing:</label>
+      <select name="outgoing">
+        <option {% if configdata.outgoing =="ALLOW"%} selected {% endif %}>ALLOW</option>
+        <option {% if configdata.outgoing =="DENY"%} selected {% endif %}>DENY</option>
+      </select><br>
+    </form>
+  </div>
+
+</div>
+
+<table class="button-center">
+  <tr>
+    <td>
+      <button class="add-button" form="updateglobalfirewallform" type="submit" >UPDATE</button>
+    </td>
+    <td>
+      <button class="generate-button" onclick="window.location='/generateglobalfirewall';">GENERATE</button>
+    </td>
+  </tr>
+</table>
+
+
 
 {% endblock %}

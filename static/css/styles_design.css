@@ -22,11 +22,11 @@
 
 
 .footer{
-    
+
     bottom: 0;
-    position: fixed;
+    padding-top:.5%;
     width: 100%;
-    height: 25px;
+    height: 20px;
     color: white;
     text-align: center;
     font-size: 12px;
@@ -155,6 +155,7 @@ button{
     border-collapse: separate;
     border-spacing: 20px 0;
     cursor: pointer;
+
 }
 
 .icon{
@@ -163,4 +164,18 @@ button{
 
 a .fa {
     color: black;
+}
+
+.form-class{
+    padding-left:auto;
+    padding-right:auto;
+
+}
+
+.form-class,input,select{
+    margin:10px;
+}
+
+.mg-t{
+    margin-top:50px;
 }

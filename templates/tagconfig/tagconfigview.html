@@ -1,129 +1,146 @@
-{% extends 'header/header.html' %}
+{% extends 'header/designheader.html' %}
 
 {% block title %}
 Tag Config View
 {% endblock %}
 
+{% block tagconfig %}
+white-background
+{% endblock %}
 
 {% block content %}
 
-<h3>Tag config View</h3>
-<form method="POST" action="/tagconfigdetails?id={{tagconfigdata._id}}">
-
-    <label labelfor="tag_name">Tag Name :</label>
-    <input name="tag_name" value="{{tagconfigdata.tag_name}}">
-
-    <label labelfor="source_interface">Source Interface :</label>
-    <select name="source_interface">
-        <option {% if tagconfigdata.source_interface =="_Digi_Input_1" %} selected {% endif %}>_Digi_Input_1</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Input_2" %} selected {% endif %}>_Digi_Input_2</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Input_3" %} selected {% endif %}>_Digi_Input_3</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Input_4" %} selected {% endif %}>_Digi_Input_4</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Output_1" %} selected {% endif %}>_Digi_Output_1</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Output_2" %} selected {% endif %}>_Digi_Output_2</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Output_3" %} selected {% endif %}>_Digi_Output_3</option>
-        <option {% if tagconfigdata.source_interface =="_Digi_Output_4" %} selected {% endif %}>_Digi_Output_4</option>
-        <option {% if tagconfigdata.source_interface =="MODBUS_RTU_INTERFACE" %} selected {% endif %}>MODBUS_RTU_INTERFACE</option>
-        <option {% if tagconfigdata.source_interface =="MODBUS_TCP_INTERFACE" %} selected {% endif %}>MODBUS_TCP_INTERFACE</option>
-    </select><br>
-
-    <label labelfor="modbus_tcp_ip">Modbus TCP IP :</label>
-    <select name="modbus_tcp_ip">
-        <option value="0">0.0.0.0</option>
-        {% for modbus in modbustcpdropdown %}
-        <option value="{{loop.index}}" {% if tagconfigdata.modbus_tcp_ip_id ==loop.index %} selected {% endif %}>{{modbus['ipaddress']}}</option>
-        {% endfor %}
+<div class="card">
+    <div class="card-header">TAG CONFIGURATION VIEW</div>
+    <div class="card-body">
 
 
-    </select>
+        <form method="POST"  class="form-class" id="tagconfigform" action="/tagconfigdetails?id={{tagconfigdata._id}}">
 
-    <label labelfor="port">Port :</label>
-    <input type="number" name="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 0 {% endif %}><br>
+            <label labelfor="tag_name">Tag Name :</label>
+            <input name="tag_name" value="{{tagconfigdata.tag_name}}">
 
-    <label labelfor="slave_id">Slave ID :</label>
-    <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 0 {% endif %}>
+            <label labelfor="source_interface">Source Interface :</label>
+            <select name="source_interface">
+                <option {% if tagconfigdata.source_interface =="_Digi_Input_1" %} selected {% endif %}>_Digi_Input_1</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Input_2" %} selected {% endif %}>_Digi_Input_2</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Input_3" %} selected {% endif %}>_Digi_Input_3</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Input_4" %} selected {% endif %}>_Digi_Input_4</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Output_1" %} selected {% endif %}>_Digi_Output_1</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Output_2" %} selected {% endif %}>_Digi_Output_2</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Output_3" %} selected {% endif %}>_Digi_Output_3</option>
+                <option {% if tagconfigdata.source_interface =="_Digi_Output_4" %} selected {% endif %}>_Digi_Output_4</option>
+                <option {% if tagconfigdata.source_interface =="MODBUS_RTU_INTERFACE" %} selected {% endif %}>MODBUS_RTU_INTERFACE</option>
+                <option {% if tagconfigdata.source_interface =="MODBUS_TCP_INTERFACE" %} selected {% endif %}>MODBUS_TCP_INTERFACE</option>
+            </select><br>
 
-    <label labelfor="function_code">Function Code :</label>
-    <select name="function_code">
-        <option value="1" {% if tagconfigdata.function_code == 1 %} selected {% endif %}>01- Read coils</option>
-        <option value="2" {% if tagconfigdata.function_code == 2 %} selected {% endif %}>02- Read Discrete input coils</option>
-        <option value="3" {% if tagconfigdata.function_code == 3 %} selected {% endif %}>03- Read Holding register</option>
-        <option value="4" {% if tagconfigdata.function_code == 4 %} selected {% endif %}>04- Read Input register</option>
-        <option value="5" {% if tagconfigdata.function_code == 5 %} selected {% endif %}>05- Write single coil</option>
-        <option value="6" {% if tagconfigdata.function_code == 6 %} selected {% endif %}>06- Write single register</option>
-
-    </select><br>
-
-    <label labelfor="reg_address">Reg Address :</label>
-    <input type="number" name="reg_address" value={% if tagconfigdata.reg_address %} {{tagconfigdata.reg_address}} {%else%} 0 {% endif %}>
-
-
-
-    <label labelfor="data_type">Data type :</label>
-    <select name="data_type">
-        <option {% if tagconfigdata.datatype =="_UINT16" %} selected {% endif %}>_UINT16</option>
-        <option {% if tagconfigdata.datatype =="_INT16" %} selected {% endif %}>_INT16</option>
-        <option {% if tagconfigdata.datatype =="_UINT32" %} selected {% endif %}>_UINT32</option>
-        <option {% if tagconfigdata.datatype =="_INT32" %} selected {% endif %}>_INT32</option>
-        <option {% if tagconfigdata.datatype =="_FLOAT_ABCD" %} selected {% endif %}>_FLOAT_ABCD</option>
-        <option {% if tagconfigdata.datatype =="_FLOAT_CDAB" %} selected {% endif %}>_FLOAT_CDAB</option>
-        <option {% if tagconfigdata.datatype =="_BOOLEAN" %} selected {% endif %}>_BOOLEAN</option>
-        <option {% if tagconfigdata.datatype =="_STRING" %} selected {% endif %}>_STRING</option>
-
-    </select><br>
-
-    <label labelfor="no_of_reg_read">No. of Reg Read :</label>
-    <input type="number" name="no_of_reg_read" value={% if tagconfigdata.no_of_reg_read %} {{tagconfigdata.no_of_reg_read}} {%else%} 0 {% endif %}>
-
-    <label labelfor="modbus_function">Modbus Function :</label>
-    <select name="modbus_function">
-
-        <option {% if tagconfigdata.modbus_function =="_MODBUS_READ" %} selected {% endif %}>_MODBUS_READ</option>
-        <option {% if tagconfigdata.modbus_function =="_MODBUS_WRITE" %} selected {% endif %}>_MODBUS_WRITE</option>
-    </select><br>
-
-    <label labelfor="multiplication_factor">Multiplication Factor :</label>
-    <input type="number" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 0 {% endif %}>
-
-    <label labelfor="modbus_base_address">Modbus Base Address :</label>
-    <select name="modbus_base_address">
-        <option {% if tagconfigdata.modbus_base_address =="_BASE_O" %} selected {% endif %}>_BASE_O</option>
-        <option {% if tagconfigdata.modbus_base_address =="_BASE_1" %} selected {% endif %}>_BASE_1</option>
-    </select><br>
-
-    <label labelfor="modbus_string_index">Modbus String Index :</label>
-    <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 0 {% endif %}>
-
-    <label labelfor="mqtt_topic_index">MQTT Topic Index :</label>
-    <select name="mqtt_topic_index">
-        <option value = "0">No Topic</option>
-        {% for mqtttopic in mqtttopicdropdown %}
-        <option value="{{loop.index}}" {% if tagconfigdata.mqtt_topic_id ==loop.index %} selected {% endif %}>{{mqtttopic['topic']}}</option>
-        {% endfor %}
-    </select><br>
-
-    <label labelfor="mqtt_function">MQTT Function :</label>
-    <select name="mqtt_function">
-        <option {% if tagconfigdata.mqtt_function =="PUBLISH" %} selected {% endif %}>PUBLISH</option>
-        <option {% if tagconfigdata.mqtt_function =="SUBSCRIBE" %} selected {% endif %}>SUBSCRIBE</option>
-        <option {% if tagconfigdata.mqtt_function =="PUBSUB" %} selected {% endif %}>PUBSUB</option>
-
-    </select>
-
-    <label labelfor="transmit_type">Transmit Type :</label>
-    <select name="transmit_type">
-        <option {% if tagconfigdata.transmit_type =="NO_EVENT" %} selected {% endif %}>NO_EVENT</option>
-        <option {% if tagconfigdata.transmit_type =="PERIODIC" %} selected {% endif %}>PERIODIC</option>
-        <option {% if tagconfigdata.transmit_type =="EVENT" %} selected {% endif %}>EVENT</option>
-    </select><br>
-
-    <label labelfor="transmit_interval">Transmit Interval :</label>
-    <input type="number" name="transmit_interval" value={% if tagconfigdata.transmit_interval %} {{tagconfigdata.transmit_interval}} {%else%} 0 {% endif %}><br>
+            <label labelfor="modbus_tcp_ip">Modbus TCP IP :</label>
+            <select name="modbus_tcp_ip">
+                <option value="0">0.0.0.0</option>
+                {% for modbus in modbustcpdropdown %}
+                <option value="{{loop.index}}" {% if tagconfigdata.modbus_tcp_ip_id ==loop.index %} selected {% endif %}>{{modbus['ipaddress']}}</option>
+                {% endfor %}
 
 
-    <button type="submit">Submit</button>
-    <button type="button" onclick="window.location='/tagconfig'">Back</button>
+            </select>
 
-</form>
+            <label labelfor="port">Port :</label>
+            <input type="number" name="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 0 {% endif %}><br>
+
+            <label labelfor="slave_id">Slave ID :</label>
+            <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 0 {% endif %}>
+
+            <label labelfor="function_code">Function Code :</label>
+            <select name="function_code">
+                <option value="1" {% if tagconfigdata.function_code == 1 %} selected {% endif %}>01- Read coils</option>
+                <option value="2" {% if tagconfigdata.function_code == 2 %} selected {% endif %}>02- Read Discrete input coils</option>
+                <option value="3" {% if tagconfigdata.function_code == 3 %} selected {% endif %}>03- Read Holding register</option>
+                <option value="4" {% if tagconfigdata.function_code == 4 %} selected {% endif %}>04- Read Input register</option>
+                <option value="5" {% if tagconfigdata.function_code == 5 %} selected {% endif %}>05- Write single coil</option>
+                <option value="6" {% if tagconfigdata.function_code == 6 %} selected {% endif %}>06- Write single register</option>
+
+            </select><br>
+
+            <label labelfor="reg_address">Reg Address :</label>
+            <input type="number" name="reg_address" value={% if tagconfigdata.reg_address %} {{tagconfigdata.reg_address}} {%else%} 0 {% endif %}>
+
+
+
+            <label labelfor="data_type">Data type :</label>
+            <select name="data_type">
+                <option {% if tagconfigdata.datatype =="_UINT16" %} selected {% endif %}>_UINT16</option>
+                <option {% if tagconfigdata.datatype =="_INT16" %} selected {% endif %}>_INT16</option>
+                <option {% if tagconfigdata.datatype =="_UINT32" %} selected {% endif %}>_UINT32</option>
+                <option {% if tagconfigdata.datatype =="_INT32" %} selected {% endif %}>_INT32</option>
+                <option {% if tagconfigdata.datatype =="_FLOAT_ABCD" %} selected {% endif %}>_FLOAT_ABCD</option>
+                <option {% if tagconfigdata.datatype =="_FLOAT_CDAB" %} selected {% endif %}>_FLOAT_CDAB</option>
+                <option {% if tagconfigdata.datatype =="_BOOLEAN" %} selected {% endif %}>_BOOLEAN</option>
+                <option {% if tagconfigdata.datatype =="_STRING" %} selected {% endif %}>_STRING</option>
+
+            </select><br>
+
+            <label labelfor="no_of_reg_read">No. of Reg Read :</label>
+            <input type="number" name="no_of_reg_read" value={% if tagconfigdata.no_of_reg_read %} {{tagconfigdata.no_of_reg_read}} {%else%} 0 {% endif %}>
+
+            <label labelfor="modbus_function">Modbus Function :</label>
+            <select name="modbus_function">
+
+                <option {% if tagconfigdata.modbus_function =="_MODBUS_READ" %} selected {% endif %}>_MODBUS_READ</option>
+                <option {% if tagconfigdata.modbus_function =="_MODBUS_WRITE" %} selected {% endif %}>_MODBUS_WRITE</option>
+            </select><br>
+
+            <label labelfor="multiplication_factor">Multiplication Factor :</label>
+            <input type="number" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 0 {% endif %}>
+
+            <label labelfor="modbus_base_address">Modbus Base Address :</label>
+            <select name="modbus_base_address">
+                <option {% if tagconfigdata.modbus_base_address =="_BASE_O" %} selected {% endif %}>_BASE_O</option>
+                <option {% if tagconfigdata.modbus_base_address =="_BASE_1" %} selected {% endif %}>_BASE_1</option>
+            </select><br>
+
+            <label labelfor="modbus_string_index">Modbus String Index :</label>
+            <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 0 {% endif %}>
+
+            <label labelfor="mqtt_topic_index">MQTT Topic Index :</label>
+            <select name="mqtt_topic_index">
+                <option value = "0">No Topic</option>
+                {% for mqtttopic in mqtttopicdropdown %}
+                <option value="{{loop.index}}" {% if tagconfigdata.mqtt_topic_id ==loop.index %} selected {% endif %}>{{mqtttopic['topic']}}</option>
+                {% endfor %}
+            </select><br>
+
+            <label labelfor="mqtt_function">MQTT Function :</label>
+            <select name="mqtt_function">
+                <option {% if tagconfigdata.mqtt_function =="PUBLISH" %} selected {% endif %}>PUBLISH</option>
+                <option {% if tagconfigdata.mqtt_function =="SUBSCRIBE" %} selected {% endif %}>SUBSCRIBE</option>
+                <option {% if tagconfigdata.mqtt_function =="PUBSUB" %} selected {% endif %}>PUBSUB</option>
+
+            </select>
+
+            <label labelfor="transmit_type">Transmit Type :</label>
+            <select name="transmit_type">
+                <option {% if tagconfigdata.transmit_type =="NO_EVENT" %} selected {% endif %}>NO_EVENT</option>
+                <option {% if tagconfigdata.transmit_type =="PERIODIC" %} selected {% endif %}>PERIODIC</option>
+                <option {% if tagconfigdata.transmit_type =="EVENT" %} selected {% endif %}>EVENT</option>
+            </select><br>
+
+            <label labelfor="transmit_interval">Transmit Interval :</label>
+            <input type="number" name="transmit_interval" value={% if tagconfigdata.transmit_interval %} {{tagconfigdata.transmit_interval}} {%else%} 0 {% endif %}><br>
+        </form>
+    </div>
+
+</div>
+
+<table class="button-center">
+    <tr>
+        <td>
+            <button form="tagconfigform" class="add-button" >SUBMIT</button>
+        </td>
+        <td>
+            <button class="generate-button" onclick="window.location='/tagconfig'">BACK</button>
+        </td>
+    </tr>
+</table>
+
 
 {% endblock %}

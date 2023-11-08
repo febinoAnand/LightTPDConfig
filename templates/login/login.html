@@ -2,19 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Config {% endblock %}</title>
+    <link rel="stylesheet" href="../../static/css/styles_design.css">
+    <link rel="stylesheet" href="../../static/icon/font-awesome.min.css">
 </head>
 <body>
-    <h3>Login Authentication</h3>
-  <form method="get" action="tagconfig">
-      <label>UserName:</label>
-      <input><br>
+<div class="header">
+    <table class="table-header">
+        <tr>
+            <td>
+                <div class="header-text">UNIVA IIoT Edge Gateway Device Management V 1.0</div>
+            </td>
+            <td>
+                <!-- <div class="header-text">innospace</div> -->
+            </td>
+            <td>
+                <!-- <div class="header-text">icon</div> -->
+            </td>
+        </tr>
+    </table>
 
-      <label>Password:</label>
-      <input type="password"><br>
 
-      <button type="submit">Submit</button>
-  </form>
+
+</div>
+
+<div class="mg-t">
+
+</div>
+
+<div class="tab-background">
+
+    <div class="card">
+        <div class="card-header">LOGIN AUTHENTICATION</div>
+        <div class="card-body">
+
+
+    <form method="get" class="form-class" action="tagconfig">
+        <label>Username:</label>
+        <input><br>
+
+        <label>Password:</label>
+        <input type="password"><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+        </div>
+
+    </div>
+</div>
+<div class="footer">Copyright © 2023 Innospace</div>
 </body>
 </html>

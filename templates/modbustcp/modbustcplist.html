@@ -1,34 +1,52 @@
-{% extends 'header/header.html' %}
+{% extends 'header/designheader.html' %}
 
 {% block title %}
 Modbus TCP List
 {% endblock %}
 
+{% block modbustcp %}
+white-background
+{% endblock %}
+
 {% block content %}
 
-<h3>Modbus TCP List</h3>
-<table>
-    <tr>
-        <th>Index</th>
-        <th>IP Address</th>
-        <th>Action</th>
-    </tr>
-    {% for data in configdata %}
-    <tr>
-        <td>{{loop.index}}</td>
-        <td>{{data['ipaddress']}}</td>
-        <td>
-            <button onclick="window.location='/modbustcpview?id={{data['_id']}}'">Edit</button>
-            <button onclick="window.location='/deletemodbustcoipview?id={{data['_id']}}'">Delete</button>
+<div class="card">
+    <div class="card-header">MODBUS TCP LIST</div>
+    <div class="card-body">
+        <table class="card-body-table">
+            <thead class="primary-background">
+                <th>INDEX</th>
+                <th>IP ADDRESS</th>
+                <th>ACTION</th>
+            </thead>
+            {% for data in configdata %}
+            <tr class="tr {% if loop.index0 % 2 ==0 %} stripped-background {%endif%}" onclick="window.location='/modbustcpview?id={{data['_id']}}';">
+                <td class="td">{{loop.index}}</td>
+                <td>{{data['ipaddress']}}</td>
+                <td class="icon"><a href="/deletemodbustcoipview?id={{data['_id']}}"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
 
+
+        </table>
+
+</div>
+
+</div>
+
+<table class="button-center">
+    <tr>
+        <td>
+            <button class="add-button" onclick="window.location='/modbustcpview'">ADD</button>
+        </td>
+        <td>
+            <button class="generate-button" onclick="window.location='/generatemodbustcpipconfigfile'">GENERATE</button>
         </td>
     </tr>
-    {% endfor %}
-
-
 </table>
 
-<button onclick="window.location='/modbustcpview';">Add</button>
-<button onclick="window.location='/generatemodbustcpipconfigfile';">Generate File</button>
+
+
+
 
 {% endblock %}

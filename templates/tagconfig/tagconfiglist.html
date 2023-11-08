@@ -1,7 +1,11 @@
 {% extends 'header/designheader.html' %}
 
 {% block title %}
-Tag Config
+Tag Config 123
+{% endblock %}
+
+{% block tagconfig %}
+white-background
 {% endblock %}
 
 
@@ -34,8 +38,6 @@ Tag Config
                         {%for data in tagconfigdata %}
 
                         <tr class="tr {% if loop.index0 % 2 ==0 %} stripped-background {%endif%}" onclick="window.location='/tagconfigview?id={{data['_id']}}';">
-
-
                             <td class="td ">{{data['tag_name']}}</td>
                             <td>{{data['source_interface']}}</td>
                             <td>{{data['modbus_tcp_ip_id']}}</td>

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect,session
 from DatabaseManager import DatabaseManager
 from FileGenerator import ConfigFileGenerator
 import sys
@@ -34,16 +34,88 @@ def home():
     return render_template("login/login.html")
 
 
+@app.route("/auth",methods=['post'])
+def auth():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        try:
+            userdata = db.selectFromUserLoginTable()[0]
+        except Exception as e:
+            print (e)
+            return redirect('/')
+
+        if userdata['username'] == data['username'] and userdata['password'] == data['password']:
+            session['userid'] = userdata['_id']
+            session['username'] = userdata['username']
+            return redirect('/tagconfig')
+        return render_template("login/login.html",errormessage = "Login Credential is wrong")
+
+@app.route('/changepassword')
+def changepassword():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    username = db.selectFromUserLoginTable()[0]['username']
+    return render_template('login/changepassword.html',username=username)
+
+@app.route('/changeauth',methods=['POST'])
+def changeauth():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+
+    data = request.form.to_dict()
+    username = db.selectFromUserLoginTable()[0]['username']
+    if request.method == 'POST':
+        if data['password'] == '' or data['confirmpassword'] == '':
+            return render_template('login/changepassword.html', username = username, errormessage = "Input Should not be empty")
+        elif data['password'] != data['confirmpassword']:
+            return render_template('login/changepassword.html', username = username, errormessage = "Confirm Password mismatch")
+
+        session.pop('username')
+        session.pop('userid')
+        db.updateUserLoginTable(data)
+        return render_template('login/login.html', errormessage = "Password changed. Login Again")
+
+    return render_template('login/login.html',errormessage = "Not Valid input")
+
+
+@app.route('/logout')
+def logout():
+    try:
+        session.pop('username')
+        session.pop('userid')
+    except Exception as e:
+        pass
+    return redirect('/')
+
+def usercheck(userid,username):
+    try:
+        data = db.selectFromUserLoginTableByID(userid)[0]
+        if data['username'] == username:
+            return 1
+    except Exception as e:
+        return 0
+    return 0
+
+def checksession():
+    try:
+        userid = session.get('userid')
+        username = session.get('username')
+        data = db.selectFromUserLoginTableByID(str(userid))[0]
+        if data['username'] == username:
+            return 1
+    except Exception as e:
+        print(e)
+        return 0
+    return 0
 
 
 ################ Tag Config Routes ########################
 
-@app.route("/tagconfiglist")
-def tagconfiglist():
-    return render_template("tagconfig/tagconfiglist.html",data="")
 
 @app.route("/tagconfigview")
 def tagconfigview():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get('id')
     modbustcpdropdown = db.selectAllFromModbusTCPIP()
     mqtttopicdropdown = db.selectAllFromMqttTopicList()
@@ -65,12 +137,16 @@ def deletetagconfig():
 
 @app.route("/tagconfig")
 def tagconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     tagConfigData = db.selectAllFromTagConfig()
     return render_template("tagconfig/tagconfiglist.html",tagconfigdata = tagConfigData)
 
 
 @app.route("/tagconfigdetails",methods=['POST'])
 def tagconfigdetails():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         #TODO validate the data
         id = request.args.get("id")
@@ -83,8 +159,13 @@ def tagconfigdetails():
 
 @app.route("/generatetagconfigfile")
 def generatetagconfigfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.TAG_CONFIG_FILE)
     return redirect("/tagconfig")
+
+
+
 
 
 
@@ -94,6 +175,8 @@ def generatetagconfigfile():
 
 @app.route("/serverconfig")
 def serverconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     try:
         serverconfigdata = db.selectFromServerConfigTable()[0]
         return render_template("serverconfig/serverconfigview.html", configdata = serverconfigdata)
@@ -104,6 +187,8 @@ def serverconfig():
 
 @app.route("/updateserverdetails",methods=["POST"])
 def updateserverconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         serverconfigdata = request.form.to_dict()
         db.updateServerConfigTable(serverconfigdata)
@@ -113,6 +198,8 @@ def updateserverconfig():
 
 @app.route("/generateserverdetailsfile")
 def generateserverdetailsfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.SERVER_CONFIG_FILE)
     return redirect("/serverconfig")
 
@@ -124,12 +211,16 @@ def generateserverdetailsfile():
 
 @app.route("/mqtttopic")
 def mqtttopic():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromMqttTopicList()
     return render_template("mqtttopic/mqtttopiclist.html",configdata = data)
 
 
 @app.route("/mqtttopicview")
 def mqtttopicview():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get('id')
     if id:
         try:
@@ -141,6 +232,8 @@ def mqtttopicview():
 
 @app.route("/deletemqttconfig")
 def deletemqttconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get("id")
     if id:
         db.deleteMqttTopicListData(id)
@@ -148,6 +241,8 @@ def deletemqttconfig():
 
 @app.route("/mqtttopicconfig",methods=['POST'])
 def mqtttopicconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         #TODO validate the data
         id = request.args.get("id")
@@ -160,6 +255,8 @@ def mqtttopicconfig():
 
 @app.route("/generatemqttconfigfile")
 def generatemqttconfigfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.MQTT_TOPIC_CONFIG_FILE)
     return redirect("/mqtttopic")
 
@@ -170,11 +267,15 @@ def generatemqttconfigfile():
 
 @app.route("/modbustcp")
 def modbustcp():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromModbusTCPIP()
     return render_template("modbustcp/modbustcplist.html",configdata = data)
 
 @app.route("/modbustcpview")
 def modbustcpview():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get('id')
     if id:
         try:
@@ -186,6 +287,8 @@ def modbustcpview():
 
 @app.route("/deletemodbustcoipview")
 def deletemodbustcoipview():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get("id")
     if id:
         db.deleteModbusTCPIPData(id)
@@ -193,6 +296,8 @@ def deletemodbustcoipview():
 
 @app.route("/modbustcpipconfig",methods=['POST'])
 def modbustcpipconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         #TODO validate the data
         id = request.args.get("id")
@@ -205,6 +310,8 @@ def modbustcpipconfig():
 
 @app.route("/generatemodbustcpipconfigfile")
 def generatemodbustcpipconfigfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.MODBUS_TCP_IP_CONFIG_FILE)
     return redirect("/modbustcp")
 
@@ -217,11 +324,15 @@ def generatemodbustcpipconfigfile():
 
 @app.route("/specificfirewall")
 def specificfirewall():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromSpecificFirewall()
     return render_template("firewall/specificfirewall.html",configdata = data)
 
 @app.route("/specificfirewallview")
 def specificfirewallview():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get('id')
     if id:
         try:
@@ -234,6 +345,8 @@ def specificfirewallview():
 
 @app.route("/deletespecificfirewalldata")
 def deletespecificfirewalldata():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     id = request.args.get("id")
     if id:
         db.deleteSpecificFirewallData(id)
@@ -241,6 +354,8 @@ def deletespecificfirewalldata():
 
 @app.route("/specificfirewallconfig",methods=['POST'])
 def specificfirewallconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         #TODO validate the data
         id = request.args.get("id")
@@ -253,6 +368,8 @@ def specificfirewallconfig():
 
 @app.route("/generatespecificconfigfile")
 def generatespecificconfigfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.SPECIFIC_FIREWALL_CONFIG_FILE)
     return redirect("/specificfirewall")
 
@@ -263,6 +380,8 @@ def generatespecificconfigfile():
 
 @app.route("/globalfirewall")
 def globalfirewall():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     try:
         data = db.selectFromGlobalFirewallTable()[0]
         return render_template("firewall/globalfirewall.html", configdata= data)
@@ -272,6 +391,8 @@ def globalfirewall():
 
 @app.route("/updateglobalfirewall",methods=["POST"])
 def updateglobalfirewall():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         globalFirewallData = request.form.to_dict()
         db.updateGlobalFirewallTable(globalFirewallData)
@@ -279,6 +400,8 @@ def updateglobalfirewall():
 
 @app.route("/generateglobalfirewall")
 def generateglobalfirewall():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.GLOBAL_FIREWALL_CONFIG_FILE)
     return redirect("/globalfirewall")
 
@@ -291,6 +414,8 @@ def generateglobalfirewall():
 
 @app.route("/wifisetting")
 def wifisetting():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     try:
         wificonfigdata = db.selectFromWifiSettingTable()[0]
         return render_template("wifisettings/wifisettings.html",configdata = wificonfigdata)
@@ -301,6 +426,8 @@ def wifisetting():
 
 @app.route("/updatewifisetting",methods=["POST"])
 def updatewifisetting():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == "POST":
         wifisettingdata = request.form.to_dict()
         db.updateWifiSettingTable(wifisettingdata)
@@ -308,6 +435,8 @@ def updatewifisetting():
 
 @app.route("/generatewifisettingfile")
 def generetewififile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.WIFI_CONFIG_FILE)
     return redirect("/wifisetting")
 
@@ -315,4 +444,5 @@ def generetewififile():
 
 
 if __name__ == "__main__":
+    app.secret_key = "akjshdgfk2j3rg23h123ufg8723hfkjuh817232f8237da"
     app.run(debug=True)

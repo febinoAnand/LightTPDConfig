@@ -21,3 +21,6 @@ class GlobalFirewallInitalData:
     INCOMING = 'ALLOW'
     OUTGOING = 'ALLOW'
 
+class UserLogin:
+    USERNAME = 'admin'
+    PASSWORD = 'admin'

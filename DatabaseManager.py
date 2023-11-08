@@ -3,11 +3,10 @@ import sqlite3
 from InitialData.DatabaseData import ServerInitalData,\
                                     WIFISettingInitialData, \
                                     DBconnent,\
-                                    GlobalFirewallInitalData
+                                    GlobalFirewallInitalData,\
+                                    UserLogin
 
 class DatabaseManager:
-
-
 
 ######################## Tag Config Table #######################
 
@@ -48,11 +47,13 @@ class DatabaseManager:
         self.__createModbusTCPIPTable()
         self.__createMqttTopicListTable()
         self.__createSpecificFirewallTable()
+        self.__createAdminAuthTable()
 
         # initialize the value in the table
         self.__initializeServerConfigTableData()
         self.__initializeWifiSettingTableData()
         self.__initializeGlobalFirewallTableData()
+        self.__initializeUserLoginTableData()
 
 
         self.conn.close()
@@ -574,7 +575,7 @@ class DatabaseManager:
         cursor.execute(sqlQuery)
         conn.commit()
         conn.close()
-        pass
+
 
     def updateSpecificFirewallTableByID(self,id,data):
         conn = sqlite3.connect(self.dbpath)
@@ -616,3 +617,60 @@ class DatabaseManager:
         conn.close()
         return modbusconfig
 
+#################### ADMIN AUTH Table ##########################
+    TABLE_ADMIN_AUTH_TABLE = 'admin_auth'
+
+    ROW_ADMIN_AUTH_ID = '_id'
+    ROW_ADMIN_AUTH_USER = 'username'
+    ROW_ADMIN_AUTH_PASSWORD = 'password'
+
+    def __createAdminAuthTable(self):
+        self.conn.execute('CREATE TABLE IF NOT EXISTS '+self.TABLE_ADMIN_AUTH_TABLE +' ('
+                          + self.ROW_ADMIN_AUTH_ID +' INTEGER PRIMARY KEY AUTOINCREMENT,'
+                          + self.ROW_ADMIN_AUTH_USER +' TEXT,'
+                          + self.ROW_ADMIN_AUTH_PASSWORD +' TEXT'
+                          +')')
+        self.conn.commit()
+
+    def __initializeUserLoginTableData(self):
+        sqlQuery = "INSERT OR IGNORE INTO " + self.TABLE_ADMIN_AUTH_TABLE + " ("+ \
+                   self.ROW_ADMIN_AUTH_ID+","+ \
+                   self.ROW_ADMIN_AUTH_USER+","+ \
+                   self.ROW_ADMIN_AUTH_PASSWORD+ \
+                   ") VALUES ("+ \
+                   "1,"+ \
+                   "'"+UserLogin.USERNAME+"',"+ \
+                   "'"+UserLogin.PASSWORD+"'"+ \
+                   ");"
+        cursor = self.conn.cursor()
+        cursor.execute(sqlQuery)
+        self.conn.commit()
+
+    def updateUserLoginTable(self,data):
+        conn = sqlite3.connect(self.dbpath)
+        cursor = conn.cursor()
+        sqlQuery = "UPDATE "+self.TABLE_ADMIN_AUTH_TABLE+" SET "+ \
+                   self.ROW_ADMIN_AUTH_USER + " = '"+ data["username"] + "', "+ \
+                   self.ROW_ADMIN_AUTH_PASSWORD + " = '"+ data["password"] +"'" \
+                   +" WHERE "+self.ROW_ADMIN_AUTH_ID+" = 1"
+        cursor.execute(sqlQuery)
+        conn.commit()
+        conn.close()
+
+    def selectFromUserLoginTable(self):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.TABLE_ADMIN_AUTH_TABLE+ " WHERE "+self.ROW_ADMIN_AUTH_ID+" = 1")
+        userlogin = cursor.fetchall()
+        conn.close()
+        return userlogin
+
+    def selectFromUserLoginTableByID(self,id):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.TABLE_ADMIN_AUTH_TABLE+ " WHERE "+self.ROW_ADMIN_AUTH_ID+" = "+id)
+        userlogin = cursor.fetchall()
+        conn.close()
+        return userlogin

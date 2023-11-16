@@ -6,3 +6,4 @@ class ConfigFileName:
     globalFireWallFileName = 'CONF_FIREWALL.txt'
     specificFireWallFileName = 'CONF_FIREWALL_TABLE.txt'
     tagConfigFilename = 'CONF_IOT_TAG.txt'
+    aboutFileName = 'CONF_ABOUT.txt'

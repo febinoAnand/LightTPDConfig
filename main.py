@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request, redirect,session
 from DatabaseManager import DatabaseManager
 from FileGenerator import ConfigFileGenerator
+from InitialData.FileName import ConfigFileName
 import sys
 
 configFolderLocation = ""
@@ -440,7 +441,22 @@ def generetewififile():
     configFileGenerator.generateFile(ConfigFileGenerator.WIFI_CONFIG_FILE)
     return redirect("/wifisetting")
 
-
+################ About ########################
+@app.route("/about")
+def about():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    file = []
+    try:
+        about_file_path = os.path.join(configFolderLocation,ConfigFileName.aboutFileName)
+        about_file = open(about_file_path,'r')
+        file_data = about_file.read().split('\n')
+        for unsplitData in file_data:
+            file.append(unsplitData.split(','))
+    except Exception as e:
+        print (e)
+        file = [["Error","Can't read the file. Kindly Check file format"]]
+    return render_template('about/about.html',file=file)
 
 
 if __name__ == "__main__":

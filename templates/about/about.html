@@ -11,16 +11,18 @@ white-background
 {% block content %}
 <div class="card">
     <div class="card-header">ABOUT</div>
-    <div class="card-body about-table">
-        <table>
-            {% for data in file%}
-            <tr>
-                <td>{{data[0]}}</td>
-                <td>:</td>
-                <td>{{data[1]}}</td>
-            </tr>
-            {%endfor%}
-        </table>
+    <div class="card-body">
+        <div class="center-layout">
+            <table>
+                {% for data in file%}
+                <tr>
+                    <td>{{data[0]}}</td>
+                    <td>:</td>
+                    <td>{{data[1]}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
 
     </div>
 

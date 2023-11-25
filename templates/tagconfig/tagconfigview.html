@@ -18,7 +18,7 @@ white-background
         <form method="POST"  class="form-class" id="tagconfigform" action="/tagconfigdetails?id={{tagconfigdata._id}}">
 
             <label labelfor="tag_name">Tag Name :</label>
-            <input name="tag_name" value="{{tagconfigdata.tag_name}}">
+            <input name="tag_name" value="{{tagconfigdata.tag_name}}" pattern="[a-zA-Z0-9_]{1,29}" title="No Special Characters allowed, Only 29 characters allowed without space" required>
 
             <label labelfor="source_interface">Source Interface :</label>
             <select name="source_interface">
@@ -45,10 +45,10 @@ white-background
             </select>
 
             <label labelfor="port">Port :</label>
-            <input type="number" name="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 0 {% endif %}><br>
+            <input type="number" name="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 0 {% endif %} min="1" max="65535" required><br>
 
             <label labelfor="slave_id">Slave ID :</label>
-            <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 0 {% endif %}>
+            <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 0 {% endif %} min="1" max="255" required>
 
             <label labelfor="function_code">Function Code :</label>
             <select name="function_code">
@@ -62,7 +62,7 @@ white-background
             </select><br>
 
             <label labelfor="reg_address">Reg Address :</label>
-            <input type="number" name="reg_address" value={% if tagconfigdata.reg_address %} {{tagconfigdata.reg_address}} {%else%} 0 {% endif %}>
+            <input type="number" name="reg_address" value={% if tagconfigdata.reg_address %} {{tagconfigdata.reg_address}} {%else%} 0 {% endif %} min="0" max="65535" required>
 
 
 
@@ -90,7 +90,7 @@ white-background
             </select><br>
 
             <label labelfor="multiplication_factor">Multiplication Factor :</label>
-            <input type="number" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 0 {% endif %}>
+            <input type="number" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 1 {% endif %} min="0" required>
 
             <label labelfor="modbus_base_address">Modbus Base Address :</label>
             <select name="modbus_base_address">
@@ -99,7 +99,7 @@ white-background
             </select><br>
 
             <label labelfor="modbus_string_index">Modbus String Index :</label>
-            <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 0 {% endif %}>
+            <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 1 {% endif %} min="1" max="50" required>
 
             <label labelfor="mqtt_topic_index">MQTT Topic Index :</label>
             <select name="mqtt_topic_index">
@@ -125,7 +125,7 @@ white-background
             </select><br>
 
             <label labelfor="transmit_interval">Transmit Interval :</label>
-            <input type="number" name="transmit_interval" value={% if tagconfigdata.transmit_interval %} {{tagconfigdata.transmit_interval}} {%else%} 0 {% endif %}><br>
+            <input type="number" name="transmit_interval" value={% if tagconfigdata.transmit_interval %} {{tagconfigdata.transmit_interval}} {%else%} 1 {% endif %} min="1" max="3600"><br>
         </form>
     </div>
 

@@ -127,6 +127,7 @@ button{
 
 .card-body{
     padding: 10px;
+    text-align:center;
 }
 
 .stripped-background{
@@ -235,4 +236,11 @@ a .fa {
 
 .about-table{
     text-align:center;
+}
+
+.center-layout{
+    margin-top:10%;
+    display:inline-block;
+    font-size: 15px;
+    line-height:20px;
 }

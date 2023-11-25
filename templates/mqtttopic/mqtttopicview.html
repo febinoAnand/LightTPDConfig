@@ -15,7 +15,7 @@ white-background
     <div class="card-body">
         <form method="post" class="form-class" id="mqtttopicform" action="/mqtttopicconfig?id={{configdata._id}}">
             <label labelfor="topic">Topic:</label>
-            <input name="topic" value="{{configdata['topic']}}">
+            <input name="topic" value="{{configdata['topic']}}" maxlength="49" minlength="1">
         </form>
     </div>
 </div>

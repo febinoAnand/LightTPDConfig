@@ -12,14 +12,16 @@ white-background
 <div class="card">
     <div class="card-header">WIFI SETTINGS</div>
     <div class="card-body">
+        <div class="center-layout">
         <form method="POST" id="wifisettingform" class="form-class" action="/updatewifisetting">
             <label labelfor="ssid">SSID:</label>
-            <input name="ssid" value="{{configdata.ssid}}"><br>
+            <input name="ssid" minlength="1" maxlength="32" value="{{configdata.ssid}}" ><br>
 
             <label labelfor="password">Password:</label>
-            <input name="password" value="{{configdata.password}}"><br>
+            <input name="password" minlength="8" maxlength="63" value="{{configdata.password}}"><br>
 
         </form>
+        </div>
     </div>
 
 </div>

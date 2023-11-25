@@ -20,10 +20,10 @@ white-background
             </select><br>
 
             <label labelfor="host">Host:</label>
-            <input name="host" value="{{configdata.host}}" size="50"><br>
+            <input name="host" value="{{configdata.host}}" size="50" minlength="1"><br>
 
             <label labelfor="port">Port:</label>
-            <input type="number" name="port" value="{{configdata.port}}"><br>
+            <input type="number" name="port" value="{{configdata.port}}" min="0" max="65535"><br>
 
             <label labelfor="client" >Client ID:</label>
             <input name="client" size="50" value="{{configdata.client}}"><br>
@@ -42,7 +42,7 @@ white-background
             </select>
 
             <label labelfor="keep_alive">Keep Alive:</label>
-            <input type="number" name="keep_alive" value="{{configdata.keepalive}}"><br>
+            <input type="number" name="keep_alive" value="{{configdata.keepalive}}" min="0" max="65535"><br>
 
         </form>
     </div>

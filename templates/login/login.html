@@ -35,20 +35,21 @@
 
     <div class="card">
         <div class="card-header">LOGIN AUTHENTICATION</div>
-        <div class="card-body">
+        <div class="card-body ">
 
             <p class="error-message">{{errormessage}}</p>
 
+            <div class="center-layout ">
+                <form method="post" class="form-class" action="/auth">
+                    <label labelfor="username">Username:</label>
+                    <input name="username"><br>
 
-    <form method="post" class="form-class" action="/auth">
-        <label labelfor="username">Username:</label>
-        <input name="username"><br>
+                    <label labelfor="password">Password:</label>
+                    <input name="password" type="password"><br>
 
-        <label labelfor="password">Password:</label>
-        <input name="password" type="password"><br>
-
-        <button type="submit">Submit</button>
-    </form>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
 
         </div>
 

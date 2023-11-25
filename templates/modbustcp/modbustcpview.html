@@ -16,7 +16,7 @@ white-background
     <div class="card-body">
         <form method="post" class="form-class" id="modbusform" action="/modbustcpipconfig?id={{configdata._id}}">
             <label labelfor="ipaddress">IP Address:</label>
-            <input name="ipaddress" value="{{configdata.ipaddress}}">
+            <input name="ipaddress" value="{{configdata.ipaddress}}" title="Enter Valid IP address" pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" required>
         </form>
     </div>
 </div>

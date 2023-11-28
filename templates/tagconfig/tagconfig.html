@@ -1,0 +1,81 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Tag Config
+{% endblock %}
+
+{% block tagconfig %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/tagconfig.css">
+{% endblock %}
+
+{% block cardhead %}
+TAG CONFIGURATION
+{% endblock %}
+
+{% block content %}
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <table>
+                <thead>
+                <th>TAG NAME</th>
+                <th>SOURCE INTERFACE</th>
+                <th>MODBUS TCP/IP</th>
+                <th>PORT</th>
+                <th>SLAVE ID</th>
+                <th>FUNCTION CODE</th>
+                <th>REG ADDRESS</th>
+                <th>NO OF REG READ</th>
+                <th>DATA TYPE</th>
+                <th>MODBUS FUNCTION</th>
+                <th>MULTIPLICATION FACTOR</th>
+                <th>MODBUS BASE ADDRESS</th>
+                <th>MODBUS STRING INDEX</th>
+                <th>MQTT TOPIC</th>
+                <th>MQTT FUCNTION</th>
+                <th>TRANSMIT TYPE</th>
+                <th>TRANSMIT INTERVAL</th>
+                <th>ACTION</th>
+                </thead>
+
+                {%for data in tagconfigdata %}
+
+<!--                <tr onclick="window.location='/tagconfigview?id={{data['_id']}}';">-->
+                <tr >
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['tag_name']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['source_interface']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['modbus_tcp_ip_id']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['port']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['slave_id']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['function_code']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['reg_address']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['no_of_reg_read']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['datatype']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['modbus_function']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['multiplication_factor']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['modbus_base_address']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['modbus_string_id']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['mqtt_topic_id']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['mqtt_function']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['transmit_type']}}</td>
+                    <td onclick="window.location='/tagconfigview?id={{data['_id']}}';">{{data['transmit_interval']}}</td>
+                    <td class="icon" onclick="if(confirm('Want to delete - {{data['tag_name']}} ?')){window.location='/deletetagconfig?id={{data['_id']}}';} else { window.location='/tagconfig';} "><div><i class="fa fa-trash"></i></div></td>
+<!--                    <td class="icon"><a href="/deletetagconfig?id={{data['_id']}}"><i class="fa fa-trash"></i></a></td>-->
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" onclick="window.location='/tagconfigview'">ADD</button>
+    <button class="input_button" onclick="window.location='/generatetagconfigfile'">GENERATE FILE</button>
+{% endblock %}

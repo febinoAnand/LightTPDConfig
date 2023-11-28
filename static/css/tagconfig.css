@@ -1,0 +1,96 @@
+
+table{
+    width: 100%;
+    color: black;
+    overflow: scroll;
+    border-collapse: separate;
+    border-spacing: 0 7px;
+    text-align: center;
+}
+
+table tr th{    
+    padding: 5px 5px;
+    background-color: #EA7500; 
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+}
+
+table tr td{    
+    padding: 5px 5px;
+    font-size: 12px;
+    cursor:pointer;
+}
+
+table tr:hover{
+     background-color: #F2EDED;
+}
+
+tr:nth-child(even) {
+    background-color: #E5E5E5;
+    outline: 1px solid black;
+}
+
+tr:nth-child(odd) {
+    outline: 1px solid black;
+}
+
+.icon{
+    font-size: 15px;
+}
+a .fa {
+    color: black;
+}
+
+.card_body{
+    overflow-y: scroll;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+@media screen and (max-width:1200px) {
+    table{
+         font-size: 8px;
+    }
+  
+}
+@media screen and (max-width:1000px) {
+    table{
+         font-size: 7px;
+    }
+}
+
+@media screen and (max-width:915px) {
+   table{
+        font-size: 6px;
+   }
+
+}
+
+@media screen and (max-width:835px) {
+    table{
+         font-size: 5px;
+    }
+
+ }
+
+ @media screen and (max-width:740px) {
+    table{
+         font-size: 4px;
+    }
+ }
+
+@media screen and (max-width:660px) {
+    table{
+        font-size: 3px;
+    }
+    table tr th{    
+        padding: 1px .5px;
+    }
+    .flex_body{
+        padding-left: 10px;
+        margin-top: 153px;
+    }
+    
+}

@@ -1,0 +1,68 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Global Firewall Config
+{% endblock %}
+
+{% block globalfirewall %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/globalfirewallform.css">
+{% endblock %}
+
+{% block cardhead %}
+GLOBAL FIREWALL
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="updateglobalfirewallform" action="/updateglobalfirewall">
+
+                <div class="flex_grid">
+                    <div class="label_input radio_main_label_top">
+                        <label labelfor="incoming">Incoming :</label>
+                        <div class="radio_input_br">
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="incoming" id="incoming_allow" value="ALLOW" {% if configdata.incoming =="ALLOW"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <label for="incoming_allow">ALLOW</label>
+                            </div>
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="incoming" id="incoming_deny" value="DENY" {% if configdata.incoming =="DENY"%} checked {% endif %}>
+                                <label for="incoming_deny">DENY</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="label_input radio_main_label_top">
+                        <label labelfor="outgoing">Outgoing :</label>
+                        <div class="radio_input_br">
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="outgoing" id="outgoing_allow" value="ALLOW" {% if configdata.outgoing =="ALLOW"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <label for="outgoing_allow">ALLOW</label>
+                            </div>
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="outgoing" id="outgoing_deny" value="DENY" {% if configdata.outgoing =="DENY"%} checked {% endif %}>
+                                <label for="outgoing_deny">DENY</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" form="updateglobalfirewallform" type="submit" >UPDATE</button>
+    <button class="input_button" onclick="window.location='/generateglobalfirewall';">GENERATE FILE</button>
+{% endblock %}

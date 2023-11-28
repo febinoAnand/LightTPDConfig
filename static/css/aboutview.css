@@ -1,0 +1,33 @@
+.card_body{
+    padding-top: 30px;
+
+}
+
+table{
+    border-collapse: separate;
+    border-spacing: 0px 8px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 13px;
+
+}
+
+
+thead{
+    background-color: #EA7500;
+    color: white;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+tr{
+    outline: 1px solid black;
+    font-size: 14px;
+}
+
+th,td{
+    padding: 8px 40px;
+}
+
+

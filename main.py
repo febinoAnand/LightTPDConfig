@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect,session
+from flask import Flask, render_template, request, redirect,session, flash,url_for
 from DatabaseManager import DatabaseManager
 from FileGenerator import ConfigFileGenerator
 from InitialData.FileName import ConfigFileName
@@ -56,7 +56,7 @@ def changepassword():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     username = db.selectFromUserLoginTable()[0]['username']
-    return render_template('login/changepassword.html',username=username)
+    return render_template('login/changepasswordview.html',username=username)
 
 @app.route('/changeauth',methods=['POST'])
 def changeauth():
@@ -67,9 +67,9 @@ def changeauth():
     username = db.selectFromUserLoginTable()[0]['username']
     if request.method == 'POST':
         if data['password'] == '' or data['confirmpassword'] == '':
-            return render_template('login/changepassword.html', username = username, errormessage = "Input Should not be empty")
+            return render_template('login/changepasswordview.html', username = username, errormessage = "Input Should not be empty")
         elif data['password'] != data['confirmpassword']:
-            return render_template('login/changepassword.html', username = username, errormessage = "Confirm Password mismatch")
+            return render_template('login/changepasswordview.html', username = username, errormessage = "Confirm Password mismatch")
 
         session.pop('username')
         session.pop('userid')
@@ -123,10 +123,10 @@ def tagconfigview():
     if id:
         try:
             tagconfigdata = db.selectFromTagConfigByID(id)[0]
-            return render_template("tagconfig/tagconfigview.html",tagconfigdata = tagconfigdata, modbustcpdropdown = modbustcpdropdown, mqtttopicdropdown = mqtttopicdropdown)
+            return render_template("tagconfig/tagconfigform.html",tagconfigdata = tagconfigdata, modbustcpdropdown = modbustcpdropdown, mqtttopicdropdown = mqtttopicdropdown)
         except Exception as e:
             print(e)
-    return render_template("tagconfig/tagconfigview.html", tagconfigdata="", modbustcpdropdown = modbustcpdropdown, mqtttopicdropdown = mqtttopicdropdown)
+    return render_template("tagconfig/tagconfigform.html", tagconfigdata="", modbustcpdropdown = modbustcpdropdown, mqtttopicdropdown = mqtttopicdropdown)
 
 @app.route("/deletetagconfig")
 def deletetagconfig():
@@ -141,7 +141,7 @@ def tagconfig():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     tagConfigData = db.selectAllFromTagConfig()
-    return render_template("tagconfig/tagconfiglist.html",tagconfigdata = tagConfigData)
+    return render_template("tagconfig/tagconfig.html",tagconfigdata = tagConfigData)
 
 
 @app.route("/tagconfigdetails",methods=['POST'])
@@ -149,21 +149,44 @@ def tagconfigdetails():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
-        #TODO validate the data
+
         id = request.args.get("id")
         data = request.form.to_dict()
+
+
+        isTagExist = ""
+        print (data)
+        try:
+            isTagExist = db.selectFromTagConfigByName(data['tag_name'])[0]
+            print (isTagExist)
+        except Exception as e:
+            print(e)
+
         if not id:
-            db.insertIntoTagConfigTable(data)
+            if not isTagExist:
+                db.insertIntoTagConfigTable(data)
+                msg = "Success....!!!Tag Name : "+data["tag_name"]+" was added"
+            else:
+                msg = "Duplicate....!!!Tag Name : "+data["tag_name"]+" was already Exist"
         else:
-            db.updateTagConfigTableByID(id,data)
-    return redirect("/tagconfig")
+            if not isTagExist:
+                db.updateTagConfigTableByID(id,data)
+                msg = "Success....!!!Tag Name : "+data["tag_name"]+"  was updated"
+            elif id == int(isTagExist["_id"]):
+                db.updateTagConfigTableByID(id,data)
+                msg = "Success....!!!Tag Name : "+data["tag_name"]+"  was updated"
+            else:
+                msg = "Duplicate....!!!Tag Name : "+data["tag_name"]+"  was already Exist"
+
+    return alertAndRedirect(msg,'/tagconfig')
+
 
 @app.route("/generatetagconfigfile")
 def generatetagconfigfile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.TAG_CONFIG_FILE)
-    return redirect("/tagconfig")
+    return alertAndRedirect("Success....!!!Tag Config file was generated","/tagconfig")
 
 
 
@@ -180,11 +203,11 @@ def serverconfig():
         return render_template('login/login.html',errormessage = "Session Expired")
     try:
         serverconfigdata = db.selectFromServerConfigTable()[0]
-        return render_template("serverconfig/serverconfigview.html", configdata = serverconfigdata)
+        return render_template("serverconfig/serverconfigform.html", configdata = serverconfigdata)
     except Exception as e:
         print (e)
 
-    return render_template("serverconfig/serverconfigview.html", configdata = "")
+    return render_template("serverconfig/serverconfigform.html", configdata = "")
 
 @app.route("/updateserverdetails",methods=["POST"])
 def updateserverconfig():
@@ -193,8 +216,7 @@ def updateserverconfig():
     if request.method == 'POST':
         serverconfigdata = request.form.to_dict()
         db.updateServerConfigTable(serverconfigdata)
-
-    return redirect("/serverconfig")
+    return alertAndRedirect("Success....!!!Server details updated","/serverconfig")
 
 
 @app.route("/generateserverdetailsfile")
@@ -202,7 +224,7 @@ def generateserverdetailsfile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.SERVER_CONFIG_FILE)
-    return redirect("/serverconfig")
+    return alertAndRedirect("Success....!!!Server config file was generated","/serverconfig")
 
 
 
@@ -215,7 +237,7 @@ def mqtttopic():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromMqttTopicList()
-    return render_template("mqtttopic/mqtttopiclist.html",configdata = data)
+    return render_template("mqtttopic/mqtttopictable.html",configdata = data)
 
 
 @app.route("/mqtttopicview")
@@ -226,10 +248,10 @@ def mqtttopicview():
     if id:
         try:
             data = db.selectFromMqttTopicListByID(id)[0]
-            return render_template("mqtttopic/mqtttopicview.html",configdata = data)
+            return render_template("mqtttopic/mqtttopicform.html",configdata = data)
         except Exception as e:
             print(e)
-    return render_template("mqtttopic/mqtttopicview.html",configdata = "")
+    return render_template("mqtttopic/mqtttopicform.html",configdata = "")
 
 @app.route("/deletemqttconfig")
 def deletemqttconfig():
@@ -245,21 +267,24 @@ def mqtttopicconfig():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
-        #TODO validate the data
+
         id = request.args.get("id")
         data = request.form.to_dict()
         if not id:
             db.insertIntoMqttTopicListTable(data)
+            msg = "Success....!!! MQTT topic was created"
         else:
             db.updateMqttTopicListTableByID(id,data)
-    return redirect("/mqtttopic")
+            msg = "Success....!!! MQTT topic was updated"
+
+    return alertAndRedirect(msg,"/mqtttopic")
 
 @app.route("/generatemqttconfigfile")
 def generatemqttconfigfile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.MQTT_TOPIC_CONFIG_FILE)
-    return redirect("/mqtttopic")
+    return alertAndRedirect("Success....!!! MQTT Topic file was generated","/mqtttopic")
 
 
 
@@ -271,7 +296,7 @@ def modbustcp():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromModbusTCPIP()
-    return render_template("modbustcp/modbustcplist.html",configdata = data)
+    return render_template("modbustcp/modbustcptable.html",configdata = data)
 
 @app.route("/modbustcpview")
 def modbustcpview():
@@ -281,10 +306,10 @@ def modbustcpview():
     if id:
         try:
             data = db.selectFromModbusTCPIPByID(id)[0]
-            return render_template("modbustcp/modbustcpview.html",configdata= data)
+            return render_template("modbustcp/modbustcpform.html",configdata= data)
         except Exception as e:
             print(e)
-    return render_template("modbustcp/modbustcpview.html",configdata= "")
+    return render_template("modbustcp/modbustcpform.html",configdata= "")
 
 @app.route("/deletemodbustcoipview")
 def deletemodbustcoipview():
@@ -300,21 +325,24 @@ def modbustcpipconfig():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
-        #TODO validate the data
+
         id = request.args.get("id")
         data = request.form.to_dict()
         if not id:
             db.insertIntoModbusTCPIPTable(data)
+            msg = "Success....!!! IP address was Added"
         else:
             db.updateModbusTCPIPTableByID(id,data)
-    return redirect("/modbustcp")
+            msg = "Success....!!! IP address was Updated"
+
+    return alertAndRedirect(msg,"/modbustcp")
 
 @app.route("/generatemodbustcpipconfigfile")
 def generatemodbustcpipconfigfile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.MODBUS_TCP_IP_CONFIG_FILE)
-    return redirect("/modbustcp")
+    return alertAndRedirect("Success....!!! MODBUS TCP IP file was generated","/modbustcp")
 
 
 
@@ -328,7 +356,7 @@ def specificfirewall():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     data = db.selectAllFromSpecificFirewall()
-    return render_template("firewall/specificfirewall.html",configdata = data)
+    return render_template("firewall/specificfirewalltable.html",configdata = data)
 
 @app.route("/specificfirewallview")
 def specificfirewallview():
@@ -338,10 +366,10 @@ def specificfirewallview():
     if id:
         try:
             data = db.selectFromSpecificFirewallByID(id)[0]
-            return render_template("firewall/specificfirewallview.html",configdata=data)
+            return render_template("firewall/specificfirewallform.html",configdata=data)
         except Exception as e:
             print(e)
-    return render_template("firewall/specificfirewallview.html",configdata='')
+    return render_template("firewall/specificfirewallform.html",configdata='')
 
 
 @app.route("/deletespecificfirewalldata")
@@ -358,21 +386,22 @@ def specificfirewallconfig():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
-        #TODO validate the data
         id = request.args.get("id")
         data = request.form.to_dict()
         if not id:
             db.insertIntoSpecificFirewallTable(data)
+            msg = "Success....!!! Firewall created"
         else:
             db.updateSpecificFirewallTableByID(id,data)
-    return redirect("/specificfirewall")
+            msg = "Success....!!! Firewall updated"
+    return alertAndRedirect(msg,"/specificfirewall")
 
 @app.route("/generatespecificconfigfile")
 def generatespecificconfigfile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.SPECIFIC_FIREWALL_CONFIG_FILE)
-    return redirect("/specificfirewall")
+    return alertAndRedirect("Success....!!! Specific firewall file was updated","/specificfirewall")
 
 
 
@@ -385,10 +414,10 @@ def globalfirewall():
         return render_template('login/login.html',errormessage = "Session Expired")
     try:
         data = db.selectFromGlobalFirewallTable()[0]
-        return render_template("firewall/globalfirewall.html", configdata= data)
+        return render_template("firewall/globalfirewallform.html", configdata= data)
     except Exception as e:
         print(e)
-    return render_template("firewall/globalfirewall.html", configdata= "")
+    return render_template("firewall/globalfirewallform.html", configdata= "")
 
 @app.route("/updateglobalfirewall",methods=["POST"])
 def updateglobalfirewall():
@@ -396,15 +425,16 @@ def updateglobalfirewall():
         return render_template('login/login.html',errormessage = "Session Expired")
     if request.method == 'POST':
         globalFirewallData = request.form.to_dict()
+        # print (globalFirewallData)
         db.updateGlobalFirewallTable(globalFirewallData)
-    return redirect("/globalfirewall")
+    return alertAndRedirect("Firewall updated","/globalfirewall")
 
 @app.route("/generateglobalfirewall")
 def generateglobalfirewall():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.GLOBAL_FIREWALL_CONFIG_FILE)
-    return redirect("/globalfirewall")
+    return alertAndRedirect("Success....!!!Global firewall config file was generated","/globalfirewall")
 
 
 
@@ -419,11 +449,11 @@ def wifisetting():
         return render_template('login/login.html',errormessage = "Session Expired")
     try:
         wificonfigdata = db.selectFromWifiSettingTable()[0]
-        return render_template("wifisettings/wifisettings.html",configdata = wificonfigdata)
+        return render_template("wifisettings/wifisettingsform.html",configdata = wificonfigdata)
     except Exception as e:
         print(e)
 
-    return render_template("wifisettings/wifisettings.html" , configdata = "")
+    return render_template("wifisettings/wifisettingsform.html" , configdata = "")
 
 @app.route("/updatewifisetting",methods=["POST"])
 def updatewifisetting():
@@ -432,14 +462,14 @@ def updatewifisetting():
     if request.method == "POST":
         wifisettingdata = request.form.to_dict()
         db.updateWifiSettingTable(wifisettingdata)
-    return redirect("/wifisetting")
+    return alertAndRedirect("Success....!!! WIFI setting was updated","/wifisetting")
 
 @app.route("/generatewifisettingfile")
 def generetewififile():
     if checksession() == 0:
         return render_template('login/login.html',errormessage = "Session Expired")
     configFileGenerator.generateFile(ConfigFileGenerator.WIFI_CONFIG_FILE)
-    return redirect("/wifisetting")
+    return alertAndRedirect("WIFI Config file was generated","/wifisetting")
 
 ################ About ########################
 @app.route("/about")
@@ -456,8 +486,15 @@ def about():
     except Exception as e:
         print (e)
         file = [["Error","Can't read the file. Kindly Check file format"]]
-    return render_template('about/about.html',file=file)
+    return render_template('about/aboutview.html',file=file)
 
+################ Utility ########################
+
+def alertAndRedirect(message,redirect_to):
+    return "<script>alert('"+message+"'); window.location = '"+redirect_to+"'; </script>"
+
+# def confirmDelete(message,homeurl,redirect_to_with_id):
+#     return "<script>if (confirm("+message+") == true) { window.location='"+redirect_to_with_id+"'} else { window.location='"+homeurl+"'}</script>"
 
 if __name__ == "__main__":
     app.secret_key = "akjshdgfk2j3rg23h123ufg8723hfkjuh817232f8237da"

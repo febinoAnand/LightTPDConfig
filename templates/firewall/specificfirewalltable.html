@@ -1,0 +1,55 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Specific Firewall
+{% endblock %}
+
+{% block specificfirewall %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/specificfirewalltable.css">
+{% endblock %}
+
+{% block cardhead %}
+SPECIFIC FIREWALL
+{% endblock %}
+
+{% block content %}
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <table>
+                <thead>
+                <th>SOURCE IP</th>
+                <th>SOURCE PORT</th>
+                <th>DESTINATION IP</th>
+                <th>DESTINATION PORT</th>
+                <th>ACCESS</th>
+                <th>ACTION</th>
+                </thead>
+
+                {% for data in configdata %}
+                <tr >
+                    <td onclick="window.location='/specificfirewallview?id={{data['_id']}}'">{{data['source_ip']}}</td>
+                    <td onclick="window.location='/specificfirewallview?id={{data['_id']}}'">{{data['source_port']}}</td>
+                    <td onclick="window.location='/specificfirewallview?id={{data['_id']}}'">{{data['destination_ip']}}</td>
+                    <td onclick="window.location='/specificfirewallview?id={{data['_id']}}'">{{data['destination_port']}}</td>
+                    <td onclick="window.location='/specificfirewallview?id={{data['_id']}}'">{{data['access']}}</td>
+                    <td onclick="if(confirm('Want to delete - {{data['source_ip']}} ?')){window.location='/deletespecificfirewalldata?id={{data['_id']}}';} else { window.location='/specificfirewall';} ">
+                        <a><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button"  onclick="window.location='/specificfirewallview';">ADD</button>
+    <button class="input_button" onclick="window.location='/generatespecificconfigfile';">GENERATE FILE</button>
+{% endblock %}

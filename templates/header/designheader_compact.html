@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Config {% endblock %}</title>
+    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="../../static/icon/font-awesome.min.css">
+    {% block linkstylesheet %}  {% endblock %}
+</head>
+<body>
+<div class="fixed_header">
+    <div class="header">
+        <p class="header_text">UNIVA IIoT Edge Gateway Device Management V 1.0</p>
+        <img class="header_inno_logo_img" src="../../static/images/innospace.png">
+        <div class="header_login_icon">
+            <i class="fa fa-bars"></i>
+            <div class="dropdown">
+                <a href="/changepassword">Change Passord</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab_background">
+        <button class="tab_view {% block tagconfig %}  {% endblock %}" onclick="window.location='/tagconfig';">IOT Config</button>
+        <button class="tab_view {% block serverconfig %}  {% endblock %}" onclick="window.location='/serverconfig';">Server Config</button>
+        <button class="tab_view {% block globalfirewall %}  {% endblock %}" onclick="window.location='/globalfirewall';">Global Firewall</button>
+        <button class="tab_view {% block specificfirewall %}  {% endblock %}" onclick="window.location='/specificfirewall';">Specific Firewall</button>
+        <button class="tab_view {% block modbustcp %}  {% endblock %}" onclick="window.location='/modbustcp';">MODBUS TCP</button>
+        <button class="tab_view {% block mqtttopic %}  {% endblock %}" onclick="window.location='/mqtttopic';">MQTT Topic</button>
+        <button class="tab_view {% block wifisetting %}  {% endblock %}" onclick="window.location='/wifisetting';">WIFI Settings</button>
+        <button class="tab_view {% block about %}  {% endblock %}" onclick="window.location='/about';">About</button>
+    </div>
+
+    <div class="top_border">
+
+    </div>
+
+    <div class="card_header">
+        {% block cardhead %} {% endblock %}
+    </div>
+</div>
+
+<div class="left_sideborder">
+
+</div>
+
+
+{% block content %}
+
+{% endblock %}
+
+
+<div class="right_sideborder">
+    <div class="right_inner_sideborder">
+
+    </div>
+</div>
+
+
+
+
+<div class="footer">
+    <div class="foot_top_border">
+    </div>
+
+
+    <div class="footer_button">
+        {%block footer%}
+
+        {% endblock %}
+    </div>
+
+
+
+    <div class="footer_text_flex">
+        <p class="footer_text">
+            Copyright © 2023 Innospace
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

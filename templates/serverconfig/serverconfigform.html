@@ -1,0 +1,108 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+SERVER CONFIG
+{% endblock %}
+
+{% block serverconfig %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/serverconfigform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+SERVER CONFIGURATION
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="updateserverform" action="/updateserverdetails">
+                <!--
+                                    <label for="tagname">TAG NAME:</label>
+                                    <input type="text" name="tagname" id="tagname">
+
+                                    <label for="sourceinterface">SOURCE INTERFACE:</label>
+                                    <input type="text" name="sourceinterface" id="sourceinterface"> -->
+
+
+                <div class="flex_grid">
+                    <div class="label_input">
+                        <label labelfor="protocol">Protocol :</label>
+                        <select name="protocol">
+                            <option {% if configdata.protocol =="MQTT" %} selected {% endif %}>MQTT</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="host">Host :</label>
+                        <input name="host" value="{{configdata.host}}" size="50" minlength="1" required><br>
+
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="port">Port :</label>
+                        <input type="number" name="port" value="{{configdata.port}}" min="0" max="65535"><br>
+
+                    </div>
+
+                    <div class="label_input">
+
+                        <label labelfor="client" >Client ID :</label>
+                        <input name="client" size="50" value="{{configdata.client}}"><br>
+
+                    </div>
+
+                    <div class="label_input">
+                        <label labelfor="username">UserName :</label>
+                        <input name="username" value="{{configdata.username}}"><br>
+
+                    </div>
+
+                    <div class="label_input">
+
+                        <label labelfor="password">Password :</label>
+                        <input name="password" type="password" value="{{configdata.password}}"><br>
+
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="qos">QOS :</label>
+                        <select name="qos">
+                            <option {% if configdata.qos ==0 %} selected {% endif %}>0</option>
+                            <option {% if configdata.qos ==1 %} selected {% endif %}>1</option>
+                            <option {% if configdata.qos ==2 %} selected {% endif %}>2</option>
+                        </select>
+                    </div>
+
+                    <div class="label_input">
+                        <label labelfor="keep_alive">Keep Alive :</label>
+                        <input type="number" name="keep_alive" value="{{configdata.keepalive}}" min="0" max="65535"><br>
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" form="updateserverform" type="submit">UPDATE</button>
+    <button class="input_button" onclick="window.location='/generateserverdetailsfile'">GENERATE FILE</button>
+{% endblock %}

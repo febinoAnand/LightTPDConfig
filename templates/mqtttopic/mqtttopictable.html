@@ -1,0 +1,49 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+MQTT Topic List
+{% endblock %}
+
+{% block mqtttopic %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/mqtttopictable.css">
+{% endblock %}
+
+{% block cardhead %}
+MQTT TOPIC LIST
+{% endblock %}
+
+{% block content %}
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <table>
+                <thead>
+                <th>INDEX</th>
+                <th>MQTT TOPIC</th>
+                <th>ACTION</th>
+                </thead>
+                {%for data in configdata %}
+                    <tr >
+                        <td onclick="window.location='/mqtttopicview?id={{data['_id']}}';">{{loop.index}}</td>
+                        <td onclick="window.location='/mqtttopicview?id={{data['_id']}}';">{{data['topic']}}</td>
+                        <td class="icon" onclick="if(confirm('Want to delete - {{data['topic']}} ?')){window.location='/deletemqttconfig?id={{data['_id']}}';} else { window.location='/mqtttopic';} "><a><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<!--<button class="input_button">ADD</button>-->
+
+<button class="input_button" onclick="window.location='/mqtttopicview'">ADD</button>
+<button class="input_button" onclick="window.location='/generatemqttconfigfile'">GENERATE FILE</button>
+<!--<button class="input_button">GENERATE</button>-->
+{% endblock %}

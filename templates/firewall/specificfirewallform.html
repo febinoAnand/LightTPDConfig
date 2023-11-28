@@ -1,0 +1,82 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Specific Firewall View
+{% endblock %}
+
+{% block specificfirewall %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/specificfirewallform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+SPECIFIC FIREWALL
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="specificfirewall-form" action="/specificfirewallconfig?id={{configdata._id}}">
+
+                <div class="flex_grid">
+                    <div class="label_input">
+                        <label labelfor="source_ip">Source IP :</label>
+                        <input name="source_ip" value="{{configdata.source_ip}}"><br>
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="source_port">Source Port :</label>
+                        <input name="source_port" value="{{configdata.source_port}}"><br>
+
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="destination_ip">Destination IP :</label>
+                        <input name="destination_ip" value="{{configdata.destination_ip}}"><br>
+
+                    </div>
+
+                    <div class="label_input">
+
+                        <label labelfor="destination_port">Destination Port :</label>
+                        <input name="destination_port" value="{{configdata.destination_port}}"><br>
+
+                    </div>
+
+                    <div class="label_input radio_main_label_top">
+                        <label labelfor="access">Access :</label>
+                        <div class="radio_input_br ">
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="access" id="access_allow" value="ALLOW" {% if configdata.access =="ALLOW"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <label for="access_allow">ALLOW</label>
+                            </div>
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="access" id="access_deny" value="DENY" {% if configdata.access =="DENY"%} checked {% endif %}>
+                                <label for="access_deny">DENY</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+<button class="input_button" form="specificfirewall-form" type="submit">SUBMIT</button>
+<button type="button" class="input_button" onclick="window.location='/specificfirewall';">BACK</button>
+{% endblock %}

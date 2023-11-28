@@ -1,0 +1,49 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+WIFI SETTING
+{% endblock %}
+
+{% block wifisetting %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/wifisettingform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+WIFI SETTING
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="wifisettingform" action="/updatewifisetting">
+
+                <div class="flex_grid">
+                    <div class="label_input">
+                        <label labelfor="ssid">SSID :</label>
+                        <input name="ssid" minlength="1" maxlength="32" value="{{configdata.ssid}}" required><br>
+                    </div>
+                    <div class="label_input">
+                        <label labelfor="password">Password :</label>
+                        <input name="password" minlength="8" maxlength="63" value="{{configdata.password}}" required><br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+<button class="input_button" form="wifisettingform" type="submit">SUBMIT</button>
+<button class="input_button" type="button" onclick="window.location='/generatewifisettingfile';">GENERATE FILE</button>
+{% endblock %}

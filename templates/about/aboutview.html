@@ -1,0 +1,45 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block about %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/aboutview.css">
+{% endblock %}
+
+{% block cardhead %}
+ABOUT
+{% endblock %}
+
+{% block content %}
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <table>
+                <thead>
+                <th>Name</th>
+                <th></th>
+                <th>Value</th>
+                </thead>
+                {% for data in file%}
+                <tr>
+                    <td>{{data[0]}}</td>
+                    <td>:</td>
+                    <td>{{data[1]}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

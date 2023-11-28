@@ -1,0 +1,47 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Modbus TCP List
+{% endblock %}
+
+{% block modbustcp %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/modbustcptable.css">
+{% endblock %}
+
+{% block cardhead %}
+MODBUS TCP LIST
+{% endblock %}
+
+{% block content %}
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <table>
+                <thead>
+                <th>INDEX</th>
+                <th>IP ADDRESS</th>
+                <th>ACTION</th>
+                </thead>
+
+                {%for data in configdata %}
+                    <tr>
+                        <td onclick="window.location='/modbustcpview?id={{data['_id']}}';">{{loop.index}}</td>
+                        <td onclick="window.location='/modbustcpview?id={{data['_id']}}';">{{data['ipaddress']}}</td>
+                        <td class="icon" onclick="if(confirm('Want to delete - {{data['ipaddress']}} ?')){window.location='/deletemodbustcoipview?id={{data['_id']}}';} else { window.location='/modbustcp';} "><a><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" onclick="window.location='/modbustcpview'">ADD</button>
+    <button class="input_button" onclick="window.location='/generatemodbustcpipconfigfile'">GENERATE FILE</button>
+{% endblock %}

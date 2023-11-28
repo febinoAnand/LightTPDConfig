@@ -1,0 +1,44 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Modbus TCP View
+{% endblock %}
+
+{% block modbustcp %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/modbustcpform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+MODBUS TCP VIEW
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="modbusform" action="/modbustcpipconfig?id={{configdata._id}}">
+                <div class="flex_grid">
+                    <div class="label_input">
+                        <label labelfor="ipaddress">IP Address:</label>
+                        <input name="ipaddress" value="{{configdata.ipaddress}}" title="Enter Valid IP address" pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+<button class="input_button" form="modbusform" type="submit">SUBMIT</button>
+
+<button class="input_button" type="button" onclick="window.location='/modbustcp';">BACK</button>
+{% endblock %}

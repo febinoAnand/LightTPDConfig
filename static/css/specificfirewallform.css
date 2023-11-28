@@ -1,0 +1,114 @@
+.card_body{
+    overflow-y: scroll;
+}
+.flex_body{
+    /* box-shadow: 0px 3px 10px rbga(0,0,0,.3); */
+
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+
+/* form{
+    width: 500px;
+} */
+
+
+input, select{
+    width: 220px;
+    height: 22px;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+select{
+    width: 227px;
+    height: 24px;
+}
+
+label{
+    font-size: 13px;
+    font-weight: bold;
+    padding:10px;
+    text-transform: uppercase;
+}
+
+.label_input{
+    display: flex;
+    width: 400px;
+    margin-left:-10px
+    margin-bottom: 10px;
+    margin-top: 12px;
+    justify-content: end;
+    align-items: center;
+}
+
+input[type='radio']:checked {
+    accent-color: rgb(255, 92, 0);
+}
+
+
+.tag_form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* margin-left: -100px; */
+    margin-top: 30px;
+    /* padding-left: 120px; */
+
+
+}
+
+.flex_grid{
+    display: flex;
+    flex-direction: column;
+
+    /* width: 30px; */
+}
+
+.radio_input{
+    width: 46%;
+    display: flex;
+    margin: 0;
+    align-content: center;
+
+}
+.radio_input label{
+    font-size: 14px;
+}
+
+.radio_main_label_top{
+    align-items: flex-start;
+}
+
+.radio_input_br{
+    display: flex;
+    /* padding-left: 20px;     */
+    width: 46%;
+    flex-direction: column;
+
+}
+
+.radio_input_br input{
+
+}
+
+.radio_input_br_inside,.radio_input_inside{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    width: 50%;
+    /* font-size: 15px; */
+}
+.radio_input_br_inside{
+
+}
+
+.radio_input_br_inside label{
+    font-size: 14px;
+    width: 30%;
+
+}

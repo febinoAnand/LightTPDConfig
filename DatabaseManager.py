@@ -190,6 +190,14 @@ class DatabaseManager:
         return tagConfigData
 
 
+    def selectFromTagConfigByName(self,name):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.TAG_CONFIG_TABLE+" WHERE "+self.ROW_TAG_NAME+" = '"+name+"'")
+        tagConfigData = cursor.fetchall()
+        conn.close()
+        return tagConfigData
 
 
 

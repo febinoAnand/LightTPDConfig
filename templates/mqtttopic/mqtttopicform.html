@@ -1,0 +1,45 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+MQTT Topic View
+{% endblock %}
+
+{% block mqtttopic %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/mqtttopicform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+MQTT TOPIC VIEW
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+        <div class="card_body">
+            <form method="POST" class="tag_form" id="mqtttopicform" action="/mqtttopicconfig?id={{configdata._id}}">
+                <div class="flex_grid">
+                    <div class="label_input">
+                        <label labelfor="topic">Topic:</label>
+                        <input name="topic" value="{{configdata['topic']}}" size="50" maxlength="49" minlength="1" title="Allowed only 0-9 A-Z a-z / @ {} . _ -" pattern="[a-zA-Z0-9\/@_\{\}._\-]+" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+<button class="input_button" form="mqtttopicform" type="submit">SUBMIT</button>
+
+
+<button class="input_button" type="button" onclick="window.location='/mqtttopic';">BACK</button>
+{% endblock %}

@@ -28,27 +28,27 @@ SPECIFIC FIREWALL
                 <div class="flex_grid">
                     <div class="label_input">
                         <label labelfor="source_ip">Source IP :</label>
-                        <input name="source_ip" value="{{configdata.source_ip}}"><br>
+                        <input name="source_ip" value="{% if configdata == '' %}0.0.0.0{% else %}{{configdata.source_ip}}{%endif%}" pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" required><br>
                     </div>
 
 
                     <div class="label_input">
                         <label labelfor="source_port">Source Port :</label>
-                        <input name="source_port" value="{{configdata.source_port}}"><br>
+                        <input name="source_port" value="{% if configdata == '' %}0{% else %}{{configdata.source_port}}{%endif%}" min="0" max="65535" required><br>
 
                     </div>
 
 
                     <div class="label_input">
                         <label labelfor="destination_ip">Destination IP :</label>
-                        <input name="destination_ip" value="{{configdata.destination_ip}}"><br>
+                        <input name="destination_ip" value="{% if configdata == '' %}0.0.0.0{% else %}{{configdata.destination_ip}}{%endif%}" pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" required><br>
 
                     </div>
 
                     <div class="label_input">
 
                         <label labelfor="destination_port">Destination Port :</label>
-                        <input name="destination_port" value="{{configdata.destination_port}}"><br>
+                        <input name="destination_port" value="{% if configdata == '' %}0{% else %}{{configdata.destination_port}}{%endif%}" min="0" max="65535"  required><br>
 
                     </div>
 
@@ -56,7 +56,7 @@ SPECIFIC FIREWALL
                         <label labelfor="access">Access :</label>
                         <div class="radio_input_br ">
                             <div class="radio_input_br_inside">
-                                <input type="radio" name="access" id="access_allow" value="ALLOW" {% if configdata.access =="ALLOW"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <input type="radio" name="access" id="access_allow" value="ALLOW" {% if configdata.access =="ALLOW"%} checked {% endif %} {% if configdata =="" %} checked {% endif %}>
                                 <label for="access_allow">ALLOW</label>
                             </div>
                             <div class="radio_input_br_inside">

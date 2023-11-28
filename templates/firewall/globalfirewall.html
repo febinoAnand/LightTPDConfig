@@ -17,14 +17,14 @@ white-background
     <form method="post" class="form-class" id="updateglobalfirewallform" action="/updateglobalfirewall">
       <label labelfor="incoming">Incoming:</label>
       <select name="incoming">
-        <option {% if configdata.incoming =="ALLOW"%} selected {% endif %} >ALLOW</option>
+        <option {% if configdata.incoming =="ALLOW"%} selected {% endif %} {% if configdata ==""%} selected {% endif %} >ALLOW</option>
         <option {% if configdata.incoming =="DENY"%} selected {% endif %}>DENY</option>
       </select><br>
 
       <label labelfor="outgoing">Outgoing:</label>
       <select name="outgoing">
         <option {% if configdata.outgoing =="ALLOW"%} selected {% endif %}>ALLOW</option>
-        <option {% if configdata.outgoing =="DENY"%} selected {% endif %}>DENY</option>
+        <option {% if configdata.outgoing =="DENY"%} selected {% endif %} {% if configdata ==""%} selected {% endif %} >DENY</option>
       </select><br>
     </form>
   </div>

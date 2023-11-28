@@ -16,11 +16,25 @@ tab_selected
 TAG CONFIGURATION
 {% endblock %}
 
+
 {% block content %}
+
+
+<script>
+    function changeRequiredState(onChangeID,toChangeID){
+        onChangeElement = document.getElementById(onChangeID);
+        toChangeElement = document.getElementById(toChangeID);
+        if(onChangeElement.value == 'MODBUS_TCP_INTERFACE'){
+            toChangeElement.setAttribute('required','required');
+        }
+        else{
+            toChangeElement.removeAttribute('required');
+        }
+    }
+</script>
 
 <div class="flex_body">
     <div class="card">
-
         <div class="card_body">
             <form method="POST" class="tag_form"  id="tagconfigform" action="/tagconfigdetails?id={{tagconfigdata._id}}">
                 <div class="flex_grid">
@@ -32,7 +46,7 @@ TAG CONFIGURATION
 
                     <div class="label_input">
                         <label labelfor="source_interface">Source Interface :</label>
-                        <select name="source_interface">
+                        <select name="source_interface" id="source_interface" onchange="changeRequiredState('source_interface','port');">
                             <option {% if tagconfigdata.source_interface =="_Digi_Input_1" %} selected {% endif %}>_Digi_Input_1</option>
                             <option {% if tagconfigdata.source_interface =="_Digi_Input_2" %} selected {% endif %}>_Digi_Input_2</option>
                             <option {% if tagconfigdata.source_interface =="_Digi_Input_3" %} selected {% endif %}>_Digi_Input_3</option>
@@ -60,12 +74,12 @@ TAG CONFIGURATION
                     <div class="label_input">
 
                         <label labelfor="port">Port :</label>
-                        <input type="number" name="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 0 {% endif %} min="1" max="65535" required><br>
+                        <input type="number" name="port" id="port" value={% if tagconfigdata.port %} {{tagconfigdata.port}} {%else%} 1 {% endif %} min="1" max="65535"><br>
                     </div>
 
                     <div class="label_input">
                         <label labelfor="slave_id">Slave ID :</label>
-                        <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 0 {% endif %} min="1" max="255" required>
+                        <input type="number" name="slave_id" value={% if tagconfigdata.slave_id %} {{tagconfigdata.slave_id}} {%else%} 1 {% endif %} min="1" max="255" required>
                     </div>
 
                     <div class="label_input">
@@ -98,18 +112,9 @@ TAG CONFIGURATION
                             <div class="radio_input_inside">
                                 <input type="radio" name="modbus_base_address" id="_BASE_1" value="_BASE_1" {% if tagconfigdata.modbus_base_address =="_BASE_1" %} checked {% endif %}>
                                 <label for="_BASE_1">_BASE_1</label>
-
-
                             </div>
                         </div>
-                        <!-- <select name="modbus_base_address">
-                            <option {% if tagconfigdata.modbus_base_address =="_BASE_O" %} selected {% endif %}>_BASE_O</option>
-                            <option {% if tagconfigdata.modbus_base_address =="_BASE_1" %} selected {% endif %}>_BASE_1</option>
-                        </select><br> -->
-
                     </div>
-
-
 
                     <div class="label_input">
                         <label labelfor="data_type">Data type :</label>
@@ -122,7 +127,6 @@ TAG CONFIGURATION
                             <option {% if tagconfigdata.datatype =="_FLOAT_CDAB" %} selected {% endif %}>_FLOAT_CDAB</option>
                             <option {% if tagconfigdata.datatype =="_BOOLEAN" %} selected {% endif %}>_BOOLEAN</option>
                             <option {% if tagconfigdata.datatype =="_STRING" %} selected {% endif %}>_STRING</option>
-
                         </select><br>
                     </div>
                 </div>
@@ -131,7 +135,7 @@ TAG CONFIGURATION
 
                     <div class="label_input">
                         <label labelfor="no_of_reg_read">No. of Reg Read :</label>
-                        <input type="number" name="no_of_reg_read" value={% if tagconfigdata.no_of_reg_read %} {{tagconfigdata.no_of_reg_read}} {%else%} 0 {% endif %}  min="1" max="20" required>
+                        <input type="number" name="no_of_reg_read" value={% if tagconfigdata.no_of_reg_read %} {{tagconfigdata.no_of_reg_read}} {%else%} 1 {% endif %}  min="1" max="20" required>
                     </div>
 
                     <div class="label_input">
@@ -146,7 +150,7 @@ TAG CONFIGURATION
                     <div class="label_input">
 
                         <label labelfor="modbus_string_index">Modbus String Index :</label>
-                        <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 1 {% endif %} min="0" max="50" required>
+                        <input type="number" name="modbus_string_index" value={% if tagconfigdata.modbus_string_index %} {{tagconfigdata.modbus_string_index}} {%else%} 0 {% endif %} min="0" max="50" required>
 
                     </div>
 

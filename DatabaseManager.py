@@ -199,6 +199,16 @@ class DatabaseManager:
         conn.close()
         return tagConfigData
 
+    def getCountTagConfig(self):
+        conn = sqlite3.connect(self.dbpath)
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM "+self.TAG_CONFIG_TABLE)
+        count = cursor.fetchall()[0][0]
+        conn.close()
+        return count
+
+
+
 
 
 

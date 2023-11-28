@@ -155,15 +155,16 @@ def tagconfigdetails():
 
 
         isTagExist = ""
-        print (data)
         try:
+            count = db.getCountTagConfig()
             isTagExist = db.selectFromTagConfigByName(data['tag_name'])[0]
-            print (isTagExist)
         except Exception as e:
             print(e)
 
         if not id:
-            if not isTagExist:
+            if count >= 1000:
+                msg = "Exceed Limit....!!! Already 1000 Tag was added. Cant able to add Tags"
+            elif not isTagExist:
                 db.insertIntoTagConfigTable(data)
                 msg = "Success....!!!Tag Name : "+data["tag_name"]+" was added"
             else:
@@ -172,11 +173,11 @@ def tagconfigdetails():
             if not isTagExist:
                 db.updateTagConfigTableByID(id,data)
                 msg = "Success....!!!Tag Name : "+data["tag_name"]+"  was updated"
-            elif id == int(isTagExist["_id"]):
+            elif id == str(isTagExist["_id"]):
                 db.updateTagConfigTableByID(id,data)
                 msg = "Success....!!!Tag Name : "+data["tag_name"]+"  was updated"
             else:
-                msg = "Duplicate....!!!Tag Name : "+data["tag_name"]+"  was already Exist"
+                msg = "Duplicate....!!!Tag Name : "+data["tag_name"]+"  was alreadyasdf Exist"
 
     return alertAndRedirect(msg,'/tagconfig')
 
@@ -493,9 +494,6 @@ def about():
 def alertAndRedirect(message,redirect_to):
     return "<script>alert('"+message+"'); window.location = '"+redirect_to+"'; </script>"
 
-# def confirmDelete(message,homeurl,redirect_to_with_id):
-#     return "<script>if (confirm("+message+") == true) { window.location='"+redirect_to_with_id+"'} else { window.location='"+homeurl+"'}</script>"
-
 if __name__ == "__main__":
     app.secret_key = "akjshdgfk2j3rg23h123ufg8723hfkjuh817232f8237da"
-    app.run(debug=True)
+    app.run(debug=False,use_reloader=False)

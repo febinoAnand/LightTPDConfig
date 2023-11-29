@@ -27,6 +27,12 @@ MODBUS TCP LIST
                 <th>ACTION</th>
                 </thead>
 
+                {% if configdata|length == 0 %}
+                <tr >
+                    <td colspan="3">No Data</td>
+                </tr>
+                {%endif%}
+
                 {%for data in configdata %}
                     <tr>
                         <td onclick="window.location='/modbustcpview?id={{data['_id']}}';">{{loop.index}}</td>

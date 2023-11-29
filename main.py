@@ -10,8 +10,8 @@ configFolderLocation = ""
 configFileGenerator = ""
 db = ""
 
-def validateFilePath():
-    testfilePath = os.path.join(configFolderLocation,"testfile.txt")
+def validateFilePath(path):
+    testfilePath = os.path.join(path,"testfile.txt")
     testFile = open(testfilePath,'w')
     testFile.write("testing..")
     testFile.close()
@@ -19,7 +19,7 @@ def validateFilePath():
 
 try:
     configFolderLocation = sys.argv[1]
-    validateFilePath()
+    validateFilePath(configFolderLocation)
     configFileGenerator = ConfigFileGenerator(configFolderLocation)
     db = DatabaseManager(configFolderLocation)
 except:
@@ -152,7 +152,7 @@ def tagconfigdetails():
 
         id = request.args.get("id")
         data = request.form.to_dict()
-
+        data = {i:'0' if not j else j for i,j in data.items()}
 
         isTagExist = ""
         try:
@@ -389,6 +389,7 @@ def specificfirewallconfig():
     if request.method == 'POST':
         id = request.args.get("id")
         data = request.form.to_dict()
+        data = {i:'0' if not j else j for i,j in data.items()}
         if not id:
             db.insertIntoSpecificFirewallTable(data)
             msg = "Success....!!! Firewall created"
@@ -496,4 +497,4 @@ def alertAndRedirect(message,redirect_to):
 
 if __name__ == "__main__":
     app.secret_key = "akjshdgfk2j3rg23h123ufg8723hfkjuh817232f8237da"
-    app.run(debug=False,use_reloader=False)
+    app.run(debug=False,use_reloader=False,host="0.0.0.0")

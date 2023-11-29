@@ -95,6 +95,7 @@ class DatabaseManager:
     def insertIntoTagConfigTable(self,data):
         conn = sqlite3.connect(self.dbpath)
         cursor = conn.cursor()
+
         sqlQuery = "INSERT INTO " + self.TAG_CONFIG_TABLE + " ("+ \
                     self.ROW_TAG_NAME+","+ \
                     self.ROW_SOURCE_INTERFACE+","+ \
@@ -132,7 +133,7 @@ class DatabaseManager:
                    "'"+data['transmit_type']+"',"+ \
                    data['transmit_interval']+""+ \
                    ");"
-
+        print(sqlQuery)
         cursor.execute(sqlQuery)
         conn.commit()
         conn.close()

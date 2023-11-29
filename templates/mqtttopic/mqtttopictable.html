@@ -26,6 +26,12 @@ MQTT TOPIC LIST
                 <th>MQTT TOPIC</th>
                 <th>ACTION</th>
                 </thead>
+
+                {% if configdata|length == 0 %}
+                <tr >
+                    <td colspan="3">No Data</td>
+                </tr>
+                {%endif%}
                 {%for data in configdata %}
                     <tr >
                         <td onclick="window.location='/mqtttopicview?id={{data['_id']}}';">{{loop.index}}</td>

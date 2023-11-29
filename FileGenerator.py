@@ -123,6 +123,8 @@ class ConfigFileGenerator:
                 configTag.write("CONFIG_SERVER_MQTT_CLIENTID=\n")
                 configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC=")
 
+        configTag.flush()
+        os.fsync(configTag.fileno())
         configTag.close()
 
     def generateAllFile(self):

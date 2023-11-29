@@ -5,20 +5,20 @@ class DBconnent:
 
 class ServerInitalData:
     PROTOCOL="MQTT"
-    URL="industrial.api.ubidots.com"
-    PORT=1883
+    URL=""
+    PORT=0
     QOS=1
     USERNAME="user"
     USERPASS="pass"
-    CLIENTID="client_Idasdlfj"
-    KEEPALIVESEC=65535
+    CLIENTID="client_I"
+    KEEPALIVESEC=0
 
 class WIFISettingInitialData:
     SSID = "ssid"
     PASSWORD = "pass"
 
 class GlobalFirewallInitalData:
-    INCOMING = 'ALLOW'
+    INCOMING = 'DENY'
     OUTGOING = 'ALLOW'
 
 class UserLogin:

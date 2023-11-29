@@ -42,6 +42,12 @@ TAG CONFIGURATION
                 <th>ACTION</th>
                 </thead>
 
+                {% if tagconfigdata|length == 0 %}
+                <tr >
+                    <td colspan="18">No Data</td>
+                </tr>
+                {%endif%}
+
                 {%for data in tagconfigdata %}
 
 <!--                <tr onclick="window.location='/tagconfigview?id={{data['_id']}}';">-->

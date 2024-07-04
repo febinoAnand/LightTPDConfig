@@ -12,6 +12,7 @@ class ServerInitalData:
     USERPASS="pass"
     CLIENTID="client_I"
     KEEPALIVESEC=0
+    SECURETOKEN = "2aa98d2b-7e3d-48ce-8fd9-2330a3489afa"
 
 class WIFISettingInitialData:
     SSID = "ssid"

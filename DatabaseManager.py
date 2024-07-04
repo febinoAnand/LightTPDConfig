@@ -226,6 +226,7 @@ class DatabaseManager:
     ROW_SERVER_KEEPALIVESEC = 'keepalive'
     ROW_SERVER_USER_NAME = 'username'
     ROW_SERVER_PASSWORD = 'password'
+    ROW_SERVER_SECURE_TOKEN = 'secure_token'
 
 
 
@@ -239,7 +240,8 @@ class DatabaseManager:
                           + self.ROW_SERVER_QOS +' INTEGER, '
                           + self.ROW_SERVER_CLIENT +' TEXT, '
                           + self.ROW_SERVER_USER_NAME +' TEXT, '
-                          + self.ROW_SERVER_PASSWORD +' TEXT'
+                          + self.ROW_SERVER_PASSWORD +' TEXT,'
+                          + self.ROW_SERVER_SECURE_TOKEN +' TEXT'
                           +')')
         self.conn.commit()
 
@@ -254,7 +256,8 @@ class DatabaseManager:
                    self.ROW_SERVER_QOS+","+ \
                    self.ROW_SERVER_CLIENT+","+ \
                    self.ROW_SERVER_USER_NAME+","+ \
-                   self.ROW_SERVER_PASSWORD+ \
+                   self.ROW_SERVER_PASSWORD+","+ \
+                   self.ROW_SERVER_SECURE_TOKEN+ \
                    ") VALUES ("+ \
                    "1,"+ \
                    "'"+ServerInitalData.URL+"',"+ \
@@ -264,7 +267,8 @@ class DatabaseManager:
                    str(ServerInitalData.QOS)+","+ \
                    "'"+ServerInitalData.CLIENTID+"',"+ \
                    "'"+ServerInitalData.USERNAME+"',"+ \
-                   "'"+ServerInitalData.USERPASS+"'"+ \
+                   "'"+ServerInitalData.USERPASS+"',"+ \
+                   "'"+ServerInitalData.SECURETOKEN+"'"+ \
                    ");"
         cursor = self.conn.cursor()
         cursor.execute(sqlQuery)
@@ -292,6 +296,7 @@ class DatabaseManager:
                    self.ROW_SERVER_QOS + " = "+ data["qos"] + ", "+ \
                    self.ROW_SERVER_CLIENT + " = '"+ data["client"] + "', "+ \
                    self.ROW_SERVER_USER_NAME + " = '"+ data["username"] + "', "+ \
+                   self.ROW_SERVER_SECURE_TOKEN + " = '"+ data["secure_token"] + "', "+ \
                    self.ROW_SERVER_PASSWORD + " = '"+ data["password"] +"'" \
                    +" WHERE "+self.ROW_SERVER_TABLE_ID+" = 1"
         cursor.execute(sqlQuery)

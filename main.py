@@ -22,7 +22,8 @@ try:
     validateFilePath(configFolderLocation)
     configFileGenerator = ConfigFileGenerator(configFolderLocation)
     db = DatabaseManager(configFolderLocation)
-except:
+except Exception as e:
+    print (e)
     print ("Kindly give correct absolute path")
     sys.exit(1)
 

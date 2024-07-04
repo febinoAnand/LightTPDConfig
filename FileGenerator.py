@@ -112,7 +112,8 @@ class ConfigFileGenerator:
                 configTag.write("CONFIG_SERVER_MQTT_USERNAME="+data["username"]+"\n")
                 configTag.write("CONFIG_SERVER_MQTT_USERPASS="+data["password"]+"\n")
                 configTag.write("CONFIG_SERVER_MQTT_CLIENTID="+data["client"]+"\n")
-                configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC="+str(data["keepalive"]))
+                configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC="+str(data["keepalive"])+"\n")
+                configTag.write("CONFIG_SERVER_MQTT_SECURE_TOKEN="+str(data["secure_token"]))
             except Exception as e:
                 configTag.write("CONFIG_SERVER_PROTOCOL=\n")
                 configTag.write("CONFIG_SERVER_MQTT_URL=\n")
@@ -121,7 +122,8 @@ class ConfigFileGenerator:
                 configTag.write("CONFIG_SERVER_MQTT_USERNAME=\n")
                 configTag.write("CONFIG_SERVER_MQTT_USERPASS=\n")
                 configTag.write("CONFIG_SERVER_MQTT_CLIENTID=\n")
-                configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC=")
+                configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC=\n")
+                configTag.write("CONFIG_SERVER_MQTT_SECURE_TOKEN=")
 
         configTag.flush()
         os.fsync(configTag.fileno())

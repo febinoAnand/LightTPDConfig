@@ -30,3 +30,9 @@ class IPConfigInitalData:
     IPADDRESS="192.168.3.11"
     SUBNET="255.255.255.0"
     DEFAULTGATEWAY="192.168.1.254"
+
+class UARTConfigInitalData:
+    BAUDRATE=110
+    PARITY="None"
+    DATABITS=8
+    STOPBITS=8

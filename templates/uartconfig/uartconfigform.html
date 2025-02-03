@@ -1,0 +1,98 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+UART CONFIG
+{% endblock %}
+
+{% block uartconfig %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/uartconfigform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+UART CONFIGURATION
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="updateuartform" action="/updateuartdetails">
+                <!--
+                                    <label for="tagname">TAG NAME:</label>
+                                    <input type="text" name="tagname" id="tagname">
+
+                                    <label for="sourceinterface">SOURCE INTERFACE:</label>
+                                    <input type="text" name="sourceinterface" id="sourceinterface"> -->
+
+
+                    <div class="flex_grid">
+                        <div class="label_input">
+                            <label labelfor="baudrate">Baud Rate :</label>
+                            <select name="baudrate">
+                                <option {% if configdata.baudrate == 110 %} selected {% endif %}>110</option>
+                                <option {% if configdata.baudrate == 300 %} selected {% endif %}>300</option>
+                                <option {% if configdata.baudrate == 600 %} selected {% endif %}>600</option>
+                                <option {% if configdata.baudrate == 1200 %} selected {% endif %}>1200</option>
+                                <option {% if configdata.baudrate == 2400 %} selected {% endif %}>2400</option>
+                                <option {% if configdata.baudrate == 4800 %} selected {% endif %}>4800</option>
+                                <option {% if configdata.baudrate == 9600 %} selected {% endif %}>9600</option>
+                                <option {% if configdata.baudrate == 14400 %} selected {% endif %}>14400</option>
+                                <option {% if configdata.baudrate == 19200 %} selected {% endif %}>19200</option>
+                                <option {% if configdata.baudrate == 28800 %} selected {% endif %}>28800</option>
+                            </select>
+                        </div>
+
+                        <div class="label_input">
+                            <label labelfor="parity">Parity :</label>
+                            <select name="parity">
+                                <option {% if configdata.parity == 'None' %} selected {% endif %}>None</option>
+                                <option {% if configdata.parity == 'Even' %} selected {% endif %}>Even</option>
+                                <option {% if configdata.parity == 'Odd' %} selected {% endif %}>Odd</option>
+                            </select>
+                        </div>
+
+                        <div class="label_input">
+                            <label for="databits">Data Bits :</label>
+                            <select name="databits">
+                                <option {% if configdata.databits == 5 %} selected {% endif %}>5</option>
+                                <option {% if configdata.databits == 6 %} selected {% endif %}>6</option>
+                                <option {% if configdata.databits == 7 %} selected {% endif %}>7</option>
+                                <option {% if configdata.databits == 8 %} selected {% endif %}>8</option>
+                                <option {% if configdata.databits == 9 %} selected {% endif %}>9</option>
+                            </select>
+                        </div>
+
+                        <div class="label_input">
+                            <label for="stopbits">Stop Bits :</label>
+                            <select name="stopbits">
+                                <option {% if configdata.stopbits == 1 %} selected {% endif %}>1</option>
+                                <option {% if configdata.stopbits == 1.5 %} selected {% endif %}>1.5</option>
+                                <option {% if configdata.stopbits == 2 %} selected {% endif %}>2</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" form="updateuartform" type="submit">UPDATE</button>
+    <button class="input_button" onclick="window.location='/generateuartdetailsfile'">GENERATE FILE</button>
+{% endblock %}

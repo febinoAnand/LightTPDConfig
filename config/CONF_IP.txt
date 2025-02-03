@@ -4,7 +4,7 @@ Name=eth0
 [Network]
 DHC=ipv4
 Address=192.168.3.11/24
-Address=192.168.3.00/24
+Address=192.168.3.11/24
 #Gateway= gateway iP
 
 [DHCP]

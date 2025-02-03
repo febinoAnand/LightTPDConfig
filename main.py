@@ -261,6 +261,38 @@ def generateipdetailsfile():
     return alertAndRedirect("Success....!!!IP config file was generated","/ipconfig")
 
 
+################ UART Config Routes ########################
+
+@app.route("/uartconfig")
+def uartconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    try:
+        uartconfigdata = db.selectFromUartConfigTable()[0]
+        return render_template("uartconfig/uartconfigform.html", configdata = uartconfigdata)
+    except Exception as e:
+        print (e)
+
+    return render_template("uartconfig/uartconfigform.html", configdata = "")
+
+@app.route("/updateuartdetails",methods=["POST"])
+def updateuartconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    if request.method == 'POST':
+        uartconfigdata = request.form.to_dict()
+        db.updateUartConfigTable(uartconfigdata)
+    return alertAndRedirect("Success....!!!UART details updated","/uartconfig")
+
+
+@app.route("/generateuartdetailsfile")
+def generateuartdetailsfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    configFileGenerator.generateFile(ConfigFileGenerator.UART_CONFIG_FILE)
+    return alertAndRedirect("Success....!!!UART config file was generated","/uartconfig")
+
+
 
 
 

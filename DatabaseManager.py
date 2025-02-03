@@ -5,7 +5,8 @@ from InitialData.DatabaseData import ServerInitalData,\
                                     DBconnent,\
                                     GlobalFirewallInitalData,\
                                     UserLogin, \
-                                    IPConfigInitalData
+                                    IPConfigInitalData, \
+                                    UARTConfigInitalData
 
 class DatabaseManager:
 
@@ -50,6 +51,7 @@ class DatabaseManager:
         self.__createSpecificFirewallTable()
         self.__createAdminAuthTable()
         self.__createIPConfigTable()
+        self.__createUartConfigTable()
 
         # initialize the value in the table
         self.__initializeServerConfigTableData()
@@ -57,6 +59,7 @@ class DatabaseManager:
         self.__initializeGlobalFirewallTableData()
         self.__initializeUserLoginTableData()
         self.__initializeIPConfigTableData()
+        self.__initializeUartConfigTableData()
 
 
         self.conn.close()
@@ -756,6 +759,75 @@ class DatabaseManager:
                 self.ROW_IP_SUB_NET + " = '"+ data["subnet"] + "', "+ \
                 self.ROW_IP_DEFAULT_GATEWAY + " = '"+ data["defaultgateway"] + "' "+ \
                 " WHERE "+self.ROW_IP_TABLE_ID+" = 1"
+        cursor.execute(sqlQuery)
+        conn.commit()
+        conn.close()
+
+
+#################### IP Config Table ##########################
+
+    UART_CONFIG_TABLE = 'uart_config'
+
+    ROW_UART_TABLE_ID = '_id'
+    ROW_UART_BAUD_RATE = 'baudrate'
+    ROW_UART_PARITY = 'parity'
+    ROW_UART_DATA_BITS = 'databits'
+    ROW_UART_STOP_BITS = 'stopbits'
+
+
+
+    def __createUartConfigTable(self):
+        self.conn.execute('CREATE TABLE IF NOT EXISTS '+self.UART_CONFIG_TABLE +' (' +
+                        self.ROW_UART_TABLE_ID + ' INTEGER PRIMARY KEY NOT NULL, ' +
+                        self.ROW_UART_BAUD_RATE + ' INTEGER, ' +
+                        self.ROW_UART_PARITY + ' TEXT, ' +
+                        self.ROW_UART_DATA_BITS + ' INTEGER, ' +
+                        self.ROW_UART_STOP_BITS + ' INTEGER)')
+        self.conn.commit()
+
+
+    def __initializeUartConfigTableData(self):
+        sqlQuery = "INSERT OR IGNORE INTO " + self.UART_CONFIG_TABLE + " ("+ \
+                    self.ROW_UART_TABLE_ID+", "+ \
+                    self.ROW_UART_BAUD_RATE+", "+ \
+                    self.ROW_UART_PARITY+", "+ \
+                    self.ROW_UART_DATA_BITS+", "+ \
+                    self.ROW_UART_STOP_BITS+ \
+                    ") VALUES ("+ \
+                    "1, '"+ str(UARTConfigInitalData.BAUDRATE) +"', '"+ \
+                    UARTConfigInitalData.PARITY +"', '"+ \
+                    str(UARTConfigInitalData.DATABITS) +"', '"+ \
+                    str(UARTConfigInitalData.STOPBITS) +"');"
+        cursor = self.conn.cursor()
+        cursor.execute(sqlQuery)
+        self.conn.commit()
+
+    def selectFromUartConfigTable(self):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.UART_CONFIG_TABLE+ " WHERE "+self.ROW_UART_TABLE_ID+" = 1")
+        ipConfig = cursor.fetchall()
+        conn.close()
+        return ipConfig
+
+
+
+    def updateUartConfigTable(self, data):
+        conn = sqlite3.connect(self.dbpath)
+        cursor = conn.cursor()
+
+        baudrate = str(data["baudrate"])
+        parity = str(data["parity"])
+        databits = str(data["databits"])
+        stopbits = str(data["stopbits"])
+        
+        sqlQuery = "UPDATE " + self.UART_CONFIG_TABLE + " SET " + \
+            self.ROW_UART_BAUD_RATE + " = '" + baudrate + "', " + \
+            self.ROW_UART_PARITY + " = '" + parity + "', " + \
+            self.ROW_UART_DATA_BITS + " = '" + databits + "', " + \
+            self.ROW_UART_STOP_BITS + " = '" + stopbits + "' " + \
+            "WHERE " + self.ROW_UART_TABLE_ID + " = 1"
         cursor.execute(sqlQuery)
         conn.commit()
         conn.close()

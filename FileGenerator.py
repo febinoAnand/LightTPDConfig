@@ -12,6 +12,7 @@ class ConfigFileGenerator:
     SPECIFIC_FIREWALL_CONFIG_FILE = ConfigFileName.specificFireWallFileName
     TAG_CONFIG_FILE = ConfigFileName.tagConfigFilename
     IP_CONFIG_FILE = ConfigFileName.ipaddressFileName
+    UART_CONFIG_FILE = ConfigFileName.uarConfigtFileName
 
     def __init__(self,path):
         self.path = path
@@ -157,6 +158,19 @@ class ConfigFileGenerator:
                 configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")
                 configTag.write("#change after this service was reloaded. Just reboot the system.\n")
                 configTag.write("CriticalConnection=true\n")
+
+        elif fileType == self.UART_CONFIG_FILE:
+            try:
+                data = db.selectFromUartConfigTable()[0]
+                configTag.write("CONFIG_UART_BAUD_RATE=" + str(data["baudrate"]) + "\n")
+                configTag.write("CONFIG_UART_PARITY=" + str(data["parity"]) + "\n")
+                configTag.write("CONFIG_UART_DATA_BITS=" + str(data["databits"]) + "\n")
+                configTag.write("CONFIG_UART_STOP_BITS=" + str(data["stopbits"]) + "\n")
+            except Exception as e:
+                configTag.write("CONFIG_UART_BAUD_RATE=\n")
+                configTag.write("CONFIG_UART_PARITY=\n")
+                configTag.write("CONFIG_UART_DATA_BITS=\n")
+                configTag.write("CONFIG_UART_STOP_BITS=\n")
 
             configTag.flush()
             os.fsync(configTag.fileno())

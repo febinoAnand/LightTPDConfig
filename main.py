@@ -229,6 +229,38 @@ def generateserverdetailsfile():
     return alertAndRedirect("Success....!!!Server config file was generated","/serverconfig")
 
 
+################ IP Config Routes ########################
+
+@app.route("/ipconfig")
+def ipconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    try:
+        ipconfigdata = db.selectFromIPConfigTable()[0]
+        return render_template("ipaddress/ipconfigform.html", configdata = ipconfigdata)
+    except Exception as e:
+        print (e)
+
+    return render_template("ipaddress/ipconfigform.html", configdata = "")
+
+@app.route("/updateipdetails",methods=["POST"])
+def updateipconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    if request.method == 'POST':
+        ipconfigdata = request.form.to_dict()
+        db.updateIPConfigTable(ipconfigdata)
+    return alertAndRedirect("Success....!!!IP details updated","/ipconfig")
+
+
+@app.route("/generateipdetailsfile")
+def generateipdetailsfile():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    configFileGenerator.generateFile(ConfigFileGenerator.IP_CONFIG_FILE)
+    return alertAndRedirect("Success....!!!IP config file was generated","/ipconfig")
+
+
 
 
 

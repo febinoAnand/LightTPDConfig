@@ -25,3 +25,8 @@ class GlobalFirewallInitalData:
 class UserLogin:
     USERNAME = 'admin'
     PASSWORD = 'admin'
+
+class IPConfigInitalData:
+    IPADDRESS="192.168.3.11"
+    SUBNET="255.255.255.0"
+    DEFAULTGATEWAY="192.168.1.254"

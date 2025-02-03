@@ -11,6 +11,7 @@ class ConfigFileGenerator:
     MQTT_TOPIC_CONFIG_FILE = ConfigFileName.mqttTopicFileName
     SPECIFIC_FIREWALL_CONFIG_FILE = ConfigFileName.specificFireWallFileName
     TAG_CONFIG_FILE = ConfigFileName.tagConfigFilename
+    IP_CONFIG_FILE = ConfigFileName.ipaddressFileName
 
     def __init__(self,path):
         self.path = path
@@ -125,9 +126,41 @@ class ConfigFileGenerator:
                 configTag.write("CONFIG_SERVER_MQTT_KEEPALIVESEC=\n")
                 configTag.write("CONFIG_SERVER_MQTT_SECURE_TOKEN=")
 
-        configTag.flush()
-        os.fsync(configTag.fileno())
-        configTag.close()
+        elif fileType == self.IP_CONFIG_FILE:
+            try:
+                data = db.selectFromIPConfigTable()[0]
+                configTag.write("[Match]\n")
+                configTag.write(f"Name=eth0\n\n")
+
+                configTag.write("[Network]\n")
+                configTag.write(f"DHC=ipv4\n")
+                configTag.write(f"Address=192.168.3.11/24\n")
+                configTag.write(f"Address={data['ipconfig']}/24\n")
+                configTag.write(f"#Gateway= gateway iP\n\n")
+
+                configTag.write("[DHCP]\n")
+                configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")
+                configTag.write("#change after this service was reloaded. Just reboot the system.\n")
+                configTag.write("CriticalConnection=true\n")
+
+            except Exception as e:
+                configTag.write("[Match]\n")
+                configTag.write(f"Name=eth0\n\n")
+                
+                configTag.write("[Network]\n")
+                configTag.write("DHC=ipv4\n")
+                configTag.write("Address=\n")
+                configTag.write("#add new address field same like above line\n")
+                configTag.write("#Gateway=\n\n")
+
+                configTag.write("[DHCP]\n")
+                configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")
+                configTag.write("#change after this service was reloaded. Just reboot the system.\n")
+                configTag.write("CriticalConnection=true\n")
+
+            configTag.flush()
+            os.fsync(configTag.fileno())
+            configTag.close()
 
     def generateAllFile(self):
         pass

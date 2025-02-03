@@ -1,0 +1,72 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+IP CONFIG
+{% endblock %}
+
+{% block ipconfig %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/ipconfigform.css">
+{% endblock %}
+
+
+{% block cardhead %}
+IP CONFIGURATION
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="ipconfigform" action="/updateipdetails">
+                <!--
+                                    <label for="tagname">TAG NAME:</label>
+                                    <input type="text" name="tagname" id="tagname">
+
+                                    <label for="sourceinterface">SOURCE INTERFACE:</label>
+                                    <input type="text" name="sourceinterface" id="sourceinterface"> -->
+
+
+                <div class="flex_grid">
+
+
+                    <div class="label_input">
+                        <label labelfor="ipconfig">IP Address :</label>
+                        <input name="ipconfig" value="{{configdata.ipconfig}}" size="50" minlength="1" required><br>
+
+                    </div>
+
+
+                    <div class="label_input">
+                        <label labelfor="subnet">Sub Net :</label>
+                        <input name="subnet" value="{{configdata.subnet}}" size="50" minlength="1" required><br>
+
+                    </div>
+
+                    <div class="label_input">
+                        <label labelfor="defaultgateway">Default Gateway :</label>
+                        <input name="defaultgateway" value="{{configdata.defaultgateway}}" size="50" minlength="1" required><br>
+
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" form="ipconfigform" type="submit">SUBMIT</button>
+    <button class="input_button" onclick="window.location='/generateipdetailsfile'">GENERATE FILE</button>
+{% endblock %}

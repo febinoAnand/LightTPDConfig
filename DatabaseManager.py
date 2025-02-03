@@ -4,7 +4,8 @@ from InitialData.DatabaseData import ServerInitalData,\
                                     WIFISettingInitialData, \
                                     DBconnent,\
                                     GlobalFirewallInitalData,\
-                                    UserLogin
+                                    UserLogin, \
+                                    IPConfigInitalData
 
 class DatabaseManager:
 
@@ -48,12 +49,14 @@ class DatabaseManager:
         self.__createMqttTopicListTable()
         self.__createSpecificFirewallTable()
         self.__createAdminAuthTable()
+        self.__createIPConfigTable()
 
         # initialize the value in the table
         self.__initializeServerConfigTableData()
         self.__initializeWifiSettingTableData()
         self.__initializeGlobalFirewallTableData()
         self.__initializeUserLoginTableData()
+        self.__initializeIPConfigTableData()
 
 
         self.conn.close()
@@ -698,3 +701,61 @@ class DatabaseManager:
         userlogin = cursor.fetchall()
         conn.close()
         return userlogin
+    
+
+#################### IP Config Table ##########################
+
+    IP_CONFIG_TABLE = 'ip_config'
+
+    ROW_IP_TABLE_ID = '_id'
+    ROW_IP_IP_ADDRESS = 'ipconfig'
+    ROW_IP_SUB_NET = 'subnet'
+    ROW_IP_DEFAULT_GATEWAY = 'defaultgateway'
+
+
+
+    def __createIPConfigTable(self):
+        self.conn.execute('CREATE TABLE IF NOT EXISTS '+self.IP_CONFIG_TABLE +' ('
+                       + self.ROW_IP_TABLE_ID +' INTEGER PRIMARY KEY NOT NULL, '
+                       + self.ROW_IP_IP_ADDRESS +' TEXT, '
+                       + self.ROW_IP_SUB_NET +' TEXT, '
+                       + self.ROW_IP_DEFAULT_GATEWAY +' TEXT)')
+        self.conn.commit()
+
+
+    def __initializeIPConfigTableData(self):
+        sqlQuery = "INSERT OR IGNORE INTO " + self.IP_CONFIG_TABLE + " ("+ \
+                self.ROW_IP_TABLE_ID+", "+ \
+                self.ROW_IP_IP_ADDRESS+", "+ \
+                self.ROW_IP_SUB_NET+", "+ \
+                self.ROW_IP_DEFAULT_GATEWAY+ \
+                ") VALUES ("+ \
+                "1, '"+ IPConfigInitalData.IPADDRESS +"', '"+ \
+                IPConfigInitalData.SUBNET +"', '"+ \
+                IPConfigInitalData.DEFAULTGATEWAY +"');"
+        cursor = self.conn.cursor()
+        cursor.execute(sqlQuery)
+        self.conn.commit()
+
+    def selectFromIPConfigTable(self):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.IP_CONFIG_TABLE+ " WHERE "+self.ROW_IP_TABLE_ID+" = 1")
+        ipConfig = cursor.fetchall()
+        conn.close()
+        return ipConfig
+
+
+
+    def updateIPConfigTable(self,data):
+        conn = sqlite3.connect(self.dbpath)
+        cursor = conn.cursor()
+        sqlQuery = "UPDATE "+self.IP_CONFIG_TABLE+" SET "+ \
+                self.ROW_IP_IP_ADDRESS + " = '"+ data["ipconfig"] + "', "+ \
+                self.ROW_IP_SUB_NET + " = '"+ data["subnet"] + "', "+ \
+                self.ROW_IP_DEFAULT_GATEWAY + " = '"+ data["defaultgateway"] + "' "+ \
+                " WHERE "+self.ROW_IP_TABLE_ID+" = 1"
+        cursor.execute(sqlQuery)
+        conn.commit()
+        conn.close()

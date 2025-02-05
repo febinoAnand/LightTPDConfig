@@ -7,5 +7,5 @@ class ConfigFileName:
     specificFireWallFileName = 'CONF_FIREWALL_TABLE.txt'
     tagConfigFilename = 'CONF_IOT_TAG.txt'
     aboutFileName = 'CONF_ABOUT.txt'
-    ipaddressFileName = 'CONF_IP.txt'
+    ipaddressFileName = '10-eth0.network.txt'
     uarConfigtFileName = 'CONF_UART.txt'

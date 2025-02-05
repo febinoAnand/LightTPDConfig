@@ -19,7 +19,10 @@ class ConfigFileGenerator:
         return
 
     def generateFile(self,fileType):
-        configFilePath = os.path.join(self.path, fileType)
+        if fileType == self.IP_CONFIG_FILE:
+            configFilePath =self.path + "\lib\systemd\Network"
+        else:
+            configFilePath = os.path.join(self.path, fileType) 
         configTag = open(configFilePath,'w')
         db = DatabaseManager(self.path)
 

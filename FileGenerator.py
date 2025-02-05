@@ -133,6 +133,7 @@ class ConfigFileGenerator:
                 ipconfig = data.get('ipconfig', '')
                 gateway = data.get('defaultgateway', '').strip()
                 subnet_mask = data.get('subnet', '').strip()
+
                 def subnet_to_cidr(subnet):
                     mask_mapping = {
                         "255.255.255.255": "32",
@@ -170,38 +171,38 @@ class ConfigFileGenerator:
                         "0.0.0.0": "0"
                     }
                     return mask_mapping.get(subnet, "24")
+
                 cidr_suffix = subnet_to_cidr(subnet_mask)
 
-
                 configTag.write("[Match]\n")
-                configTag.write(f"Name=eth0\n\n")
+                configTag.write("Name=eth0\n\n")
 
                 configTag.write("[Network]\n")
-                configTag.write(f"DHC=ipv4\n")
-                configTag.write(f"Address=192.168.3.11/24\n")
+                configTag.write("DHCP=ipv4\n")
+                configTag.write("Address=192.168.3.11/24\n")
                 if ipconfig and ipconfig != "192.168.3.11":
-                    configTag.write(f"Address={ipconfig}/{cidr_suffix}\n")
+                    configTag.write("Address=" + str(ipconfig) + "/" + str(cidr_suffix) + "\n")
                 if gateway:
-                    configTag.write(f"Gateway={gateway}\n\n")
+                    configTag.write("Gateway=" + str(gateway) + "\n\n")
 
                 configTag.write("[DHCP]\n")
-                configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")
-                configTag.write("#change after this service was reloaded. Just reboot the system.\n")
+                configTag.write("# When CriticalConnection is applied to networkd, the IP address will not\n")
+                configTag.write("# change after this service was reloaded. Just reboot the system.\n")
                 configTag.write("CriticalConnection=true\n")
 
             except Exception as e:
                 configTag.write("[Match]\n")
-                configTag.write(f"Name=eth0\n\n")
-                
+                configTag.write("Name=eth0\n\n")
+
                 configTag.write("[Network]\n")
-                configTag.write("DHC=ipv4\n")
+                configTag.write("DHCP=ipv4\n")
                 configTag.write("Address=\n")
                 configTag.write("#add new address field same like above line\n")
                 configTag.write("#Gateway=\n\n")
 
                 configTag.write("[DHCP]\n")
-                configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")
-                configTag.write("#change after this service was reloaded. Just reboot the system.\n")
+                configTag.write("# When CriticalConnection is applied to networkd, the IP address will not\n")
+                configTag.write("# change after this service was reloaded. Just reboot the system.\n")
                 configTag.write("CriticalConnection=true\n")
 
         elif fileType == self.UART_CONFIG_FILE:

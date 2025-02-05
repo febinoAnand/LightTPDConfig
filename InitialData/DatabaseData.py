@@ -29,7 +29,7 @@ class UserLogin:
 class IPConfigInitalData:
     IPADDRESS="192.168.3.11"
     SUBNET="255.255.255.0"
-    DEFAULTGATEWAY="192.168.1.254"
+    DEFAULTGATEWAY=""
 
 class UARTConfigInitalData:
     BAUDRATE=110

@@ -4,8 +4,9 @@ Name=eth0
 [Network]
 DHC=ipv4
 Address=192.168.3.11/24
-Address=192.168.3.11/24
-#Gateway= gateway iP
+Address=192.168.3.13/32
+
+Gateway=192.168.3.4
 
 [DHCP]
 #When CriticalConnection is applied to networkd, the IP address will not

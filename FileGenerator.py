@@ -130,14 +130,59 @@ class ConfigFileGenerator:
         elif fileType == self.IP_CONFIG_FILE:
             try:
                 data = db.selectFromIPConfigTable()[0]
+                ipconfig = data.get('ipconfig', '')
+                gateway = data.get('defaultgateway', '').strip()
+                subnet_mask = data.get('subnet', '').strip()
+                def subnet_to_cidr(subnet):
+                    mask_mapping = {
+                        "255.255.255.255": "32",
+                        "255.255.255.254": "31",
+                        "255.255.255.252": "30",
+                        "255.255.255.248": "29",
+                        "255.255.255.240": "28",
+                        "255.255.255.224": "27",
+                        "255.255.255.192": "26",
+                        "255.255.255.128": "25",
+                        "255.255.255.0": "24",
+                        "255.255.254.0": "23",
+                        "255.255.252.0": "22",
+                        "255.255.248.0": "21",
+                        "255.255.240.0": "20",
+                        "255.255.224.0": "19",
+                        "255.255.192.0": "18",
+                        "255.255.128.0": "17",
+                        "255.255.0.0": "16",
+                        "255.254.0.0": "15",
+                        "255.252.0.0": "14",
+                        "255.248.0.0": "13",
+                        "255.240.0.0": "12",
+                        "255.224.0.0": "11",
+                        "255.192.0.0": "10",
+                        "255.128.0.0": "9",
+                        "255.0.0.0": "8",
+                        "254.0.0.0": "7",
+                        "252.0.0.0": "6",
+                        "248.0.0.0": "5",
+                        "240.0.0.0": "4",
+                        "224.0.0.0": "3",
+                        "192.0.0.0": "2",
+                        "128.0.0.0": "1",
+                        "0.0.0.0": "0"
+                    }
+                    return mask_mapping.get(subnet, "24")
+                cidr_suffix = subnet_to_cidr(subnet_mask)
+
+
                 configTag.write("[Match]\n")
                 configTag.write(f"Name=eth0\n\n")
 
                 configTag.write("[Network]\n")
                 configTag.write(f"DHC=ipv4\n")
                 configTag.write(f"Address=192.168.3.11/24\n")
-                configTag.write(f"Address={data['ipconfig']}/24\n")
-                configTag.write(f"#Gateway= gateway iP\n\n")
+                if ipconfig and ipconfig != "192.168.3.11":
+                    configTag.write(f"Address={ipconfig}/{cidr_suffix}\n")
+                if gateway:
+                    configTag.write(f"Gateway={gateway}\n\n")
 
                 configTag.write("[DHCP]\n")
                 configTag.write("#When CriticalConnection is applied to networkd, the IP address will not\n")

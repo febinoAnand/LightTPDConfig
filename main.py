@@ -1,5 +1,5 @@
 import os
-
+import time
 from flask import Flask, render_template, request, redirect,session, flash,url_for
 from DatabaseManager import DatabaseManager
 from FileGenerator import ConfigFileGenerator
@@ -109,6 +109,17 @@ def checksession():
         print(e)
         return 0
     return 0
+
+@app.route('/reboot')
+def reboot():
+    try:
+        time.sleep(60)
+        os.system("reboot")
+    except Exception as e:
+        return render_template('login/login.html', errormessage="Failed to reboot the system.")
+    session.pop('username', None)
+    session.pop('userid', None)
+    return redirect('/')
 
 
 ################ Tag Config Routes ########################

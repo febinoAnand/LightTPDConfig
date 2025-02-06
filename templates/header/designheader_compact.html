@@ -17,6 +17,7 @@
             <i class="fa fa-bars"></i>
             <div class="dropdown">
                 <a href="/changepassword">Change Passord</a>
+                <a href="#" onclick="confirmReboot()">Reboot</a>
                 <a href="/logout">Logout</a>
             </div>
         </div>
@@ -82,6 +83,15 @@
         </p>
     </div>
 </div>
+
+<script>
+    function confirmReboot() {
+        if (confirm("Do you want to reboot?")) {
+            alert("Wait for 1 minute until reboot");
+            window.location.href = "/reboot";
+        }
+    }
+</script>
 
 </body>
 </html>

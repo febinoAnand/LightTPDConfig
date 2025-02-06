@@ -113,7 +113,6 @@ def checksession():
 @app.route('/reboot')
 def reboot():
     try:
-        time.sleep(60)
         os.system("reboot")
     except Exception as e:
         return render_template('login/login.html', errormessage="Failed to reboot the system.")

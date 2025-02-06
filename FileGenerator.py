@@ -20,7 +20,7 @@ class ConfigFileGenerator:
 
     def generateFile(self,fileType):
         if fileType == self.IP_CONFIG_FILE:
-            configFilePath =self.path + "\lib\systemd\Network"
+            configFilePath ="/lib/systemd/network/10-eth0.network.txt"
         else:
             configFilePath = os.path.join(self.path, fileType) 
         configTag = open(configFilePath,'w')

@@ -141,7 +141,7 @@ TAG CONFIGURATION
                     <div class="label_input">
 
                         <label labelfor="multiplication_factor">Multiplication Factor :</label>
-                        <input type="number" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 1 {% endif %} min="0" title="Number should be 2 decimal places." pattern="[0-9]+([\.,][0-9]+)?" step="0.01" required>
+                        <input type="floatformat" name="multiplication_factor" value={% if tagconfigdata.multiplication_factor %} {{tagconfigdata.multiplication_factor}} {%else%} 1 {% endif %} required>
                     </div>
 
 

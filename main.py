@@ -173,8 +173,8 @@ def tagconfigdetails():
             print(e)
 
         if not id:
-            if count >= 1000:
-                msg = "Exceed Limit....!!! Already 1000 Tag was added. Cant able to add Tags"
+            if count >= 1700:
+                msg = "Exceed Limit....!!! Already 1700 Tag was added. Cant able to add Tags"
             elif not isTagExist:
                 db.insertIntoTagConfigTable(data)
                 msg = "Success....!!!Tag Name : "+data["tag_name"]+" was added"

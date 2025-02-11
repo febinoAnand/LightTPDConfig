@@ -46,6 +46,12 @@ UART CONFIGURATION
                                 <option {% if configdata.baudrate == 14400 %} selected {% endif %}>14400</option>
                                 <option {% if configdata.baudrate == 19200 %} selected {% endif %}>19200</option>
                                 <option {% if configdata.baudrate == 28800 %} selected {% endif %}>28800</option>
+                                <option {% if configdata.baudrate == 38400 %} selected {% endif %}>38400</option>
+                                <option {% if configdata.baudrate == 56000 %} selected {% endif %}>56000</option>
+                                <option {% if configdata.baudrate == 57600 %} selected {% endif %}>57600</option>
+                                <option {% if configdata.baudrate == 115200 %} selected {% endif %}>115200</option>
+                                <option {% if configdata.baudrate == 128000 %} selected {% endif %}>128000</option>
+                                <option {% if configdata.baudrate == 256000 %} selected {% endif %}>256000</option>
                             </select>
                         </div>
 
@@ -65,7 +71,6 @@ UART CONFIGURATION
                                 <option {% if configdata.databits == 6 %} selected {% endif %}>6</option>
                                 <option {% if configdata.databits == 7 %} selected {% endif %}>7</option>
                                 <option {% if configdata.databits == 8 %} selected {% endif %}>8</option>
-                                <option {% if configdata.databits == 9 %} selected {% endif %}>9</option>
                             </select>
                         </div>
 
@@ -73,7 +78,6 @@ UART CONFIGURATION
                             <label for="stopbits">Stop Bits :</label>
                             <select name="stopbits">
                                 <option {% if configdata.stopbits == 1 %} selected {% endif %}>1</option>
-                                <option {% if configdata.stopbits == 1.5 %} selected {% endif %}>1.5</option>
                                 <option {% if configdata.stopbits == 2 %} selected {% endif %}>2</option>
                             </select>
                         </div>

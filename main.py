@@ -514,6 +514,36 @@ def generateglobalfirewall():
     return alertAndRedirect("Success....!!!Global firewall config file was generated","/globalfirewall")
 
 
+################ Offline DB Config Routes ########################
+
+@app.route("/offlinedbconfig")
+def offlinedbconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    try:
+        data = db.selectFromOfflineDBConfigTable()[0]
+        return render_template("offlinedbconfig/offlinedbconfigform.html", configdata= data)
+    except Exception as e:
+        print(e)
+    return render_template("offlinedbconfig/offlinedbconfigform.html", configdata= "")
+
+@app.route("/updateofflinedbconfig",methods=["POST"])
+def updateofflinedbconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    if request.method == 'POST':
+        offlinedbconfigData = request.form.to_dict()
+        db.updateOfflineDBConfigTable(offlinedbconfigData)
+    return alertAndRedirect("Offline DB Config updated","/offlinedbconfig")
+
+@app.route("/generateofflinedbconfig")
+def generateofflinedbconfig():
+    if checksession() == 0:
+        return render_template('login/login.html',errormessage = "Session Expired")
+    configFileGenerator.generateFile(ConfigFileGenerator.OFFLINE_DB_CONFIG_FILE)
+    return alertAndRedirect("Success....!!!Offline DB config file was generated","/offlinedbconfig")
+
+
 
 
 

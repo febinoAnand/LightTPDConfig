@@ -36,3 +36,7 @@ class UARTConfigInitalData:
     PARITY="None"
     DATABITS=8
     STOPBITS=8
+
+class OfflineDBConfigInitalData:
+    SAVEOFFLINEDATA = 'Disable'
+    SERVERACKNOWLEDGEMENT = 'Enable'

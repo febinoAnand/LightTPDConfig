@@ -6,7 +6,8 @@ from InitialData.DatabaseData import ServerInitalData,\
                                     GlobalFirewallInitalData,\
                                     UserLogin, \
                                     IPConfigInitalData, \
-                                    UARTConfigInitalData
+                                    UARTConfigInitalData, \
+                                    OfflineDBConfigInitalData
 
 class DatabaseManager:
 
@@ -52,6 +53,7 @@ class DatabaseManager:
         self.__createAdminAuthTable()
         self.__createIPConfigTable()
         self.__createUartConfigTable()
+        self.__createOfflineDBConfigTable()
 
         # initialize the value in the table
         self.__initializeServerConfigTableData()
@@ -60,6 +62,7 @@ class DatabaseManager:
         self.__initializeUserLoginTableData()
         self.__initializeIPConfigTableData()
         self.__initializeUartConfigTableData()
+        self.__initializeOfflineDBConfigTableData()
 
 
         self.conn.close()
@@ -422,6 +425,61 @@ class DatabaseManager:
                    self.ROW_GLOBAL_INCOMING + " = '"+ data["incoming"] + "', "+ \
                    self.ROW_GLOBAL_OUTGOING + " = '"+ data["outgoing"] +"'" \
                    +" WHERE "+self.ROW_GLOBAL_ID+" = 1"
+        cursor.execute(sqlQuery)
+        conn.commit()
+        conn.close()
+
+
+#################### Offline DB Config Table ##########################
+
+    TABLE_OFFLINE_DB_CONFIG = 'offline_db_config'
+
+    ROW_OFFLINE_DB_ID = '_id'
+    ROW_OFFLINE_DB_SAVEOFFLINEDATA = 'saveofflinedata'
+    ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT = 'serveracknowledgement'
+
+    def __createOfflineDBConfigTable(self):
+        self.conn.execute('CREATE TABLE IF NOT EXISTS '+self.TABLE_OFFLINE_DB_CONFIG +' ('
+                          + self.ROW_OFFLINE_DB_ID +' INTEGER PRIMARY KEY NOT NULL,'
+                          + self.ROW_OFFLINE_DB_SAVEOFFLINEDATA +' TEXT ,'
+                          + self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT +' TEXT'
+                          +')')
+        self.conn.commit()
+
+
+
+    def __initializeOfflineDBConfigTableData(self):
+        sqlQuery = "INSERT OR IGNORE INTO " + self.TABLE_OFFLINE_DB_CONFIG + " ("+ \
+                   self.ROW_OFFLINE_DB_ID+","+ \
+                   self.ROW_OFFLINE_DB_SAVEOFFLINEDATA+","+ \
+                   self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT+ \
+                   ") VALUES ("+ \
+                   "1,"+ \
+                   "'"+OfflineDBConfigInitalData.SAVEOFFLINEDATA+"',"+ \
+                   "'"+OfflineDBConfigInitalData.SERVERACKNOWLEDGEMENT+"'"+ \
+                   ");"
+        cursor = self.conn.cursor()
+        cursor.execute(sqlQuery)
+        self.conn.commit()
+
+
+    def selectFromOfflineDBConfigTable(self):
+        conn = sqlite3.connect(self.dbpath)
+        conn.row_factory = self.__dict_factory
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM "+self.TABLE_OFFLINE_DB_CONFIG+ " WHERE "+self.ROW_OFFLINE_DB_ID+" = 1")
+        offlinedbConfig = cursor.fetchall()
+        conn.close()
+        return offlinedbConfig
+
+
+    def updateOfflineDBConfigTable(self,data):
+        conn = sqlite3.connect(self.dbpath)
+        cursor = conn.cursor()
+        sqlQuery = "UPDATE "+self.TABLE_OFFLINE_DB_CONFIG+" SET "+ \
+                   self.ROW_OFFLINE_DB_SAVEOFFLINEDATA + " = '"+ data["saveofflinedata"] + "', "+ \
+                   self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT + " = '"+ data["serveracknowledgement"] +"'" \
+                   +" WHERE "+self.ROW_OFFLINE_DB_ID+" = 1"
         cursor.execute(sqlQuery)
         conn.commit()
         conn.close()

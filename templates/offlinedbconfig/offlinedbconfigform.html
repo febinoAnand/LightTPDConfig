@@ -1,0 +1,68 @@
+{% extends 'header/designheader_compact.html' %}
+
+{% block title %}
+Global Firewall Config
+{% endblock %}
+
+{% block offlinedbconfig %}
+tab_selected
+{% endblock %}
+
+{% block linkstylesheet %}
+<link rel="stylesheet" href="../../static/css/offlinedbconfigform.css">
+{% endblock %}
+
+{% block cardhead %}
+OFFLINE DB CONFIG
+{% endblock %}
+
+{% block content %}
+
+<div class="flex_body">
+    <div class="card">
+
+        <div class="card_body">
+            <form method="POST" class="tag_form"  id="updateofflinedbconfigform" action="/updateofflinedbconfig">
+
+                <div class="flex_grid">
+                    <div class="label_input radio_main_label_top">
+                        <label class="long-label" labelfor="saveofflinedata">Save offline data to DB :</label>
+                        <div class="radio_input_br">
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="saveofflinedata" id="saveofflinedata_enable" value="Enable" {% if configdata.saveofflinedata =="Enable"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <label for="saveofflinedata_enable">ENABLE</label>
+                            </div>
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="saveofflinedata" id="saveofflinedata_disable" value="Disable" {% if configdata.saveofflinedata =="Disable"%} checked {% endif %}>
+                                <label for="saveofflinedata_disable">DISABLE</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="label_input radio_main_label_top">
+                        <label class="long-labels" labelfor="serveracknowledgement">Outgoing :</label>
+                        <div class="radio_input_br">
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="serveracknowledgement" id="serveracknowledgement_enable" value="Enable" {% if configdata.serveracknowledgement =="Enable"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
+                                <label for="serveracknowledgement_enable">ENABLE</label>
+                            </div>
+                            <div class="radio_input_br_inside">
+                                <input type="radio" name="serveracknowledgement" id="serveracknowledgement_disable" value="Disable" {% if configdata.serveracknowledgement =="Disable"%} checked {% endif %}>
+                                <label for="serveracknowledgement_disable">DISABLE</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <button class="input_button" form="updateofflinedbconfigform" type="submit" >UPDATE</button>
+    <button class="input_button" onclick="window.location='/generateofflinedbconfig';">GENERATE FILE</button>
+{% endblock %}

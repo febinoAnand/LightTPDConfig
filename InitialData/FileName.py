@@ -9,3 +9,4 @@ class ConfigFileName:
     aboutFileName = 'CONF_ABOUT.txt'
     ipaddressFileName = '10-eth0.network.txt'
     uarConfigtFileName = 'CONF_UART.txt'
+    offlinedbConfigtFileName = 'CONF_OFFLINE_DB.txt'

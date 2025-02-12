@@ -13,6 +13,7 @@ class ConfigFileGenerator:
     TAG_CONFIG_FILE = ConfigFileName.tagConfigFilename
     IP_CONFIG_FILE = ConfigFileName.ipaddressFileName
     UART_CONFIG_FILE = ConfigFileName.uarConfigtFileName
+    OFFLINE_DB_CONFIG_FILE = ConfigFileName.offlinedbConfigtFileName
 
     def __init__(self,path):
         self.path = path
@@ -44,6 +45,16 @@ class ConfigFileGenerator:
             except Exception as e:
                 configTag.write("CONFIG_FIREWALL_DEFAULT_INCOMING="+"\n")
                 configTag.write("CONFIG_FIREWALL_DEFAULT_OUTGOING=")
+
+        elif fileType == self.OFFLINE_DB_CONFIG_FILE:
+            try:
+                data = db.selectFromOfflineDBConfigTable()[0]
+                configTag.write("CONFIG_OFFLINE_DB="+data['saveofflinedata']+"\n")
+                configTag.write("CONFIG_SERVER_ACK="+data['serveracknowledgement'])
+
+            except Exception as e:
+                configTag.write("CONFIG_OFFLINE_DB="+"\n")
+                configTag.write("CCONFIG_SERVER_ACK=")
 
         elif fileType == self.MODBUS_TCP_IP_CONFIG_FILE:
             try:

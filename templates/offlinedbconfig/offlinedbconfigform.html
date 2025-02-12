@@ -25,8 +25,8 @@ OFFLINE DB CONFIG
             <form method="POST" class="tag_form"  id="updateofflinedbconfigform" action="/updateofflinedbconfig">
 
                 <div class="flex_grid">
-                    <div class="label_input radio_main_label_top">
-                        <label class="long-label" labelfor="saveofflinedata">Save offline data to DB :</label>
+                    <div class="label_input">
+                        <label id="saveofflinedata_label" for="saveofflinedata">Save Offline Data to DB :</label>
                         <div class="radio_input_br">
                             <div class="radio_input_br_inside">
                                 <input type="radio" name="saveofflinedata" id="saveofflinedata_enable" value="Enable" {% if configdata.saveofflinedata =="Enable"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
@@ -37,11 +37,10 @@ OFFLINE DB CONFIG
                                 <label for="saveofflinedata_disable">DISABLE</label>
                             </div>
                         </div>
-
                     </div>
-
-                    <div class="label_input radio_main_label_top">
-                        <label class="long-labels" labelfor="serveracknowledgement">Outgoing :</label>
+                    
+                    <div class="label_input">
+                        <label for="serveracknowledgement">Server Acknowledgement :</label>
                         <div class="radio_input_br">
                             <div class="radio_input_br_inside">
                                 <input type="radio" name="serveracknowledgement" id="serveracknowledgement_enable" value="Enable" {% if configdata.serveracknowledgement =="Enable"%} checked {% endif %}  {% if configdata =="" %} checked {% endif %}>
@@ -52,7 +51,7 @@ OFFLINE DB CONFIG
                                 <label for="serveracknowledgement_disable">DISABLE</label>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </form>
         </div>

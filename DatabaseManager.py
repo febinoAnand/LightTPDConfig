@@ -437,12 +437,14 @@ class DatabaseManager:
     ROW_OFFLINE_DB_ID = '_id'
     ROW_OFFLINE_DB_SAVEOFFLINEDATA = 'saveofflinedata'
     ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT = 'serveracknowledgement'
+    ROW_OFFLINE_DB_SERVEROFFLINERECORD = 'serverofflinerecord'
 
     def __createOfflineDBConfigTable(self):
         self.conn.execute('CREATE TABLE IF NOT EXISTS '+self.TABLE_OFFLINE_DB_CONFIG +' ('
                           + self.ROW_OFFLINE_DB_ID +' INTEGER PRIMARY KEY NOT NULL,'
                           + self.ROW_OFFLINE_DB_SAVEOFFLINEDATA +' TEXT ,'
-                          + self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT +' TEXT'
+                          + self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT +' TEXT ,'
+                          + self.ROW_OFFLINE_DB_SERVEROFFLINERECORD +' INTEGER'
                           +')')
         self.conn.commit()
 
@@ -452,11 +454,13 @@ class DatabaseManager:
         sqlQuery = "INSERT OR IGNORE INTO " + self.TABLE_OFFLINE_DB_CONFIG + " ("+ \
                    self.ROW_OFFLINE_DB_ID+","+ \
                    self.ROW_OFFLINE_DB_SAVEOFFLINEDATA+","+ \
-                   self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT+ \
+                   self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT+","+ \
+                   self.ROW_OFFLINE_DB_SERVEROFFLINERECORD+ \
                    ") VALUES ("+ \
                    "1,"+ \
                    "'"+OfflineDBConfigInitalData.SAVEOFFLINEDATA+"',"+ \
-                   "'"+OfflineDBConfigInitalData.SERVERACKNOWLEDGEMENT+"'"+ \
+                   "'"+OfflineDBConfigInitalData.SERVERACKNOWLEDGEMENT+"',"+ \
+                   "'"+OfflineDBConfigInitalData.SERVEROFFLINERECORD+"'"+ \
                    ");"
         cursor = self.conn.cursor()
         cursor.execute(sqlQuery)
@@ -477,9 +481,10 @@ class DatabaseManager:
         conn = sqlite3.connect(self.dbpath)
         cursor = conn.cursor()
         sqlQuery = "UPDATE "+self.TABLE_OFFLINE_DB_CONFIG+" SET "+ \
-                   self.ROW_OFFLINE_DB_SAVEOFFLINEDATA + " = '"+ data["saveofflinedata"] + "', "+ \
-                   self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT + " = '"+ data["serveracknowledgement"] +"'" \
-                   +" WHERE "+self.ROW_OFFLINE_DB_ID+" = 1"
+                self.ROW_OFFLINE_DB_SAVEOFFLINEDATA + " = '"+ data["saveofflinedata"] + "', "+ \
+                self.ROW_OFFLINE_DB_SERVERACKNOWLEDGEMENT + " = '"+ data["serveracknowledgement"] + "', " + \
+                self.ROW_OFFLINE_DB_SERVEROFFLINERECORD + " = '"+ data["serverofflinerecord"] + "' " + \
+                "WHERE "+self.ROW_OFFLINE_DB_ID+" = 1"
         cursor.execute(sqlQuery)
         conn.commit()
         conn.close()

@@ -50,11 +50,13 @@ class ConfigFileGenerator:
             try:
                 data = db.selectFromOfflineDBConfigTable()[0]
                 configTag.write("CONFIG_OFFLINE_DB="+data['saveofflinedata']+"\n")
-                configTag.write("CONFIG_SERVER_ACK="+data['serveracknowledgement'])
+                configTag.write("CONFIG_SERVER_ACK="+data['serveracknowledgement']+"\n")
+                configTag.write("CONFIG_MAX_NO_OFFLINE_RECORD="+str(data['serverofflinerecord']))
 
             except Exception as e:
                 configTag.write("CONFIG_OFFLINE_DB="+"\n")
-                configTag.write("CCONFIG_SERVER_ACK=")
+                configTag.write("CCONFIG_SERVER_ACK="+"\n")
+                configTag.write("CONFIG_MAX_NO_OFFLINE_RECORD=")
 
         elif fileType == self.MODBUS_TCP_IP_CONFIG_FILE:
             try:

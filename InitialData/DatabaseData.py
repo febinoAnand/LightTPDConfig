@@ -40,3 +40,4 @@ class UARTConfigInitalData:
 class OfflineDBConfigInitalData:
     SAVEOFFLINEDATA = 'Disable'
     SERVERACKNOWLEDGEMENT = 'Enable'
+    SERVEROFFLINERECORD = '500'

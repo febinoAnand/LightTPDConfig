@@ -32,7 +32,7 @@ label{
 
 .label_input {
     display: flex;
-    width: 460px; /* Increase width to align both sections properly */
+    width: 80%; /* Increase width to align both sections properly */
     margin-bottom: 10px;
     margin-top: 12px;
     justify-content: flex-start;
@@ -107,4 +107,20 @@ input[type='radio']:checked {
 
 #saveofflinedata_label {
     margin-left: 20px; /* Adjust the value as needed */
+}
+
+.label_inputs {
+    display: flex;
+    width: 100%; /* Full width to prevent wrapping */
+    gap: 10px; /* Space between label and input */
+    flex-wrap: nowrap;
+    margin-left: -60px;
+}
+
+#serverofflinerecord_lable {
+    flex-shrink: 0;
+    width: auto; /* Adjust the value as needed */
+    white-space: nowrap;
+    margin-left: 50px;
+    text-align: left;
 }

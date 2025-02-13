@@ -51,7 +51,12 @@ OFFLINE DB CONFIG
                                 <label for="serveracknowledgement_disable">DISABLE</label>
                             </div>
                         </div>
-                    </div>                    
+                    </div>     
+                    
+                    <div class="label_inputs">
+                        <label id="saveofflinedata_label" for="serverofflinerecord">Maximum Offline Record to Save :</label>
+                        <input name="serverofflinerecord" id="serverofflinerecord" value="{{ configdata.serverofflinerecord }}" size="50" minlength="1" required><br>
+                    </div>    
                 </div>
             </form>
         </div>

@@ -115,6 +115,7 @@ input[type='radio']:checked {
     gap: 10px; /* Space between label and input */
     flex-wrap: nowrap;
     margin-left: -60px;
+    margin-top: 20px;
 }
 
 #serverofflinerecord_lable {
@@ -123,4 +124,10 @@ input[type='radio']:checked {
     white-space: nowrap;
     margin-left: 50px;
     text-align: left;
+}
+
+#serverofflinerecord {
+    width: 120px; /* Reduce the width as needed */
+    min-width: 100px; /* Set a minimum width */
+    margin-left: 35px;
 }

@@ -1,5 +1,6 @@
 import os
 import time
+import sqlite3
 from flask import Flask, render_template, request, redirect,session, flash,url_for
 from DatabaseManager import DatabaseManager
 from FileGenerator import ConfigFileGenerator
@@ -119,6 +120,19 @@ def reboot():
     session.pop('username', None)
     session.pop('userid', None)
     return redirect('/')
+
+@app.route('/delete_offline_records', methods=['POST'])
+def delete_offline_records():
+    try:
+        conn = sqlite3.connect('/mnt/data/db/iotgateway.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM TXOFFLINE;")
+        conn.commit()
+        conn.close()
+        return {"message": "Offline records deleted successfully."}
+    except Exception as e:
+        print("Error deleting offline records:", e)
+        return {"message": "Error deleting offline records."}, 500
 
 
 ################ Tag Config Routes ########################

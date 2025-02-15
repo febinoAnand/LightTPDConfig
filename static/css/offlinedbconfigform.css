@@ -53,7 +53,7 @@ input[type='radio']:checked {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* margin-left: -100px; */
+    margin-left: 100px;
     margin-top: 30px;
     /* padding-left: 120px; */
 

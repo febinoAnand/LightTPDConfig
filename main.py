@@ -124,15 +124,23 @@ def reboot():
 @app.route('/delete_offline_records', methods=['POST'])
 def delete_offline_records():
     try:
-        conn = sqlite3.connect('/mnt/data/db/iotgateway.db')
+        # base_folder = os.path.dirname(configFolderLocation)
+        # db_path = os.path.join(base_folder, "db", "gateway.db")
+
+        # if not os.path.exists(db_path):
+        #     return {"message": "Database file not found."}, 404
+
+        db_path = '/mnt/data/db/gateway.db'
+
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute("DELETE FROM TXOFFLINE;")
         conn.commit()
         conn.close()
-        return {"message": "Offline records deleted successfully."}
+        return '{"message": "Offline records deleted successfully."}'
     except Exception as e:
         print("Error deleting offline records:", e)
-        return {"message": "Error deleting offline records."}, 500
+        return '{"message": "Error deleting offline records."}', 500
 
 
 ################ Tag Config Routes ########################
